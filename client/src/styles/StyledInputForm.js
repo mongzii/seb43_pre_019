@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledInputForm = styled.form`
   margin-left: 30px;
