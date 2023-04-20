@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import { AiFillGithub } from 'react-icons/ai';
 import { ImFacebook2 } from 'react-icons/im';
+import Header from '../components/header/Header';
 
 const Styledlogin = styled.div`
   border: 2px solid white;
@@ -20,6 +21,7 @@ const GoogleButton = styled.button`
   border: 1px solid black;
   border-radius: 5px;
   height: 30px;
+  margin-top: 300px;
 `;
 
 const GithubButton = styled.button`
@@ -81,32 +83,36 @@ const Styledloginbox = styled.body`
 
 function LogIn() {
   return (
-    <main>
-      <Styledlogin>
-        <GoogleButton>
-          <FcGoogle size="19" />
-          Log in with Google
-        </GoogleButton>
-        <GithubButton>
-          <AiFillGithub size="19" />
-          Log in with GitHub
-        </GithubButton>
-        <FacebookButton>
-          <ImFacebook2 size="19" />
-          Log in with Facebook
-        </FacebookButton>
-      </Styledlogin>
+    <>
+      <Header />
 
-      <body>
-        <Styledloginbox>
-          <span>Email</span>
-          <input />
-          <span>Password</span>
-          <input />
-          <button>Log in</button>
-        </Styledloginbox>
-      </body>
-    </main>
+      <main>
+        <Styledlogin>
+          <GoogleButton>
+            <FcGoogle size="19" />
+            Log in with Google
+          </GoogleButton>
+          <GithubButton>
+            <AiFillGithub size="19" />
+            Log in with GitHub
+          </GithubButton>
+          <FacebookButton>
+            <ImFacebook2 size="19" />
+            Log in with Facebook
+          </FacebookButton>
+        </Styledlogin>
+
+        <body>
+          <Styledloginbox>
+            <span>Email</span>
+            <input />
+            <span>Password</span>
+            <input />
+            <button>Log in</button>
+          </Styledloginbox>
+        </body>
+      </main>
+    </>
   );
 }
 
