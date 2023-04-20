@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import useAxios from "../services/useAxios";
+import { Link } from 'react-router-dom';
+import useAxios from '../services/useAxios';
 
-import StyledQuestions from "../styles/StyledQuestions";
+import StyledQuestions from '../styles/StyledQuestions';
 
 function Questions() {
   // ERR_NGROK_3200
@@ -21,7 +21,7 @@ function Questions() {
   return (
     <div>
       <StyledQuestions>
-        {questions.map((question) => (
+        {questions.map(question => (
           <li key={question.id}>
             <Link to={`/questions/${question.id}`}>
               <h2>{question.title}</h2>

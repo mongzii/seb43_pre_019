@@ -1,15 +1,15 @@
-import { useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import useAxios from "../services/useAxios";
-import { axiosDelete, axiosPatch } from "../services/api";
+import useAxios from '../services/useAxios';
+import { axiosDelete, axiosPatch } from '../services/api';
 
-import StyledQuestionContainer from "../styles/StyledQuestionContainer";
-import StyledList from "../styles/StyledList";
-import StyledAnswer from "../styles/StyledAnswer";
-import { MarkDown } from "../components/Input";
-import StyledInputForm from "../styles/StyledInputForm";
-import MarkdownViewer from "../components/MarkDownViewer";
+import StyledQuestionContainer from '../styles/StyledQuestionContainer';
+import StyledList from '../styles/StyledList';
+import StyledAnswer from '../styles/StyledAnswer';
+import { MarkDown } from '../components/Input';
+import StyledInputForm from '../styles/StyledInputForm';
+import MarkdownViewer from '../components/MarkDownViewer';
 
 function Question() {
   const devUrl = process.env.REACT_APP_DEV_URL;
@@ -24,11 +24,11 @@ function Question() {
   };
 
   // markdown editor 사용
-  const [bodyValue, setBodyValue] = useState("");
+  const [bodyValue, setBodyValue] = useState('');
 
   // answer submit
   // url이 안바뀌니까 answer가 추가되어도 다시 데이터를 불러오지 않는다.
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     const newAnswer = { body: bodyValue };
     const data = {
@@ -42,7 +42,7 @@ function Question() {
     axiosPatch(`${devUrl}/questions/${id}`, data, id);
     // 리렌더링
     // setLocalAnswers((prev) => [...prev, newAnswer]);
-    setBodyValue("");
+    setBodyValue('');
   };
 
   const editorAnswerRef = useRef();
@@ -61,7 +61,7 @@ function Question() {
       <StyledAnswer>
         {!answers
           ? null
-          : answers.map((el) => {
+          : answers.map(el => {
               return (
                 <StyledList>
                   <MarkdownViewer key={el.id} content={el.body} />
