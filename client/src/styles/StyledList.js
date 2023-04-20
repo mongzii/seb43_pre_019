@@ -18,5 +18,8 @@ const StyledList = styled.div`
       color: skyblue;
     }
   }
+  > li {
+    list-style: none;
+  }
 `;
 export default StyledList;

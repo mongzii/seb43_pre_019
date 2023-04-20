@@ -9,7 +9,6 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 function MarkDown({ editorRef }) {
   // preview="edit" 는 미리보기가 없는 모드!
   // MdEditor
-  console.log(editorRef);
   return (
     // <MDEditor
     //   preview="edit"

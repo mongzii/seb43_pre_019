@@ -1,7 +1,23 @@
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import useAxios from '../services/useAxios';
 
-import StyledQuestions from '../styles/StyledQuestions';
+const StyledQuestions = styled.ul`
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  > li {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+    :hover {
+      color: gray;
+    }
+  }
+`;
 
 function Questions() {
   // ERR_NGROK_3200

@@ -9,6 +9,7 @@ export const axiosCreate = (url, data) => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      // 'ngrok-skip-browser-warning': '임의의 값',
     },
     data: JSON.stringify(data),
   })
