@@ -60,6 +60,7 @@ const Styledloginbox = styled.body`
   > span {
     font-weight: 500;
   }
+
   > input {
     height: 20px;
   }
@@ -85,7 +86,6 @@ function LogIn() {
   return (
     <>
       <Header />
-
       <main>
         <Styledlogin>
           <GoogleButton>
@@ -101,12 +101,12 @@ function LogIn() {
             Log in with Facebook
           </FacebookButton>
         </Styledlogin>
-
         <body>
           <Styledloginbox>
             <span>Email</span>
             <input />
             <span>Password</span>
+            <span>Forgot password?</span>
             <input />
             <button>Log in</button>
           </Styledloginbox>
