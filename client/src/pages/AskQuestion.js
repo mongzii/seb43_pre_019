@@ -1,13 +1,13 @@
-import { useState, useRef } from "react";
-import useAxios from "../services/useAxios";
+import { useState, useRef } from 'react';
+import useAxios from '../services/useAxios';
 
-import useInput from "../services/useInput";
-import { axiosCreate } from "../services/api";
-import { Input, MarkDown, TextArea } from "../components/Input";
-import StyledInputForm from "../styles/StyledInputForm";
+import useInput from '../services/useInput';
+import { axiosCreate } from '../services/api';
+import { Input, MarkDown, TextArea } from '../components/Input';
+import StyledInputForm from '../styles/StyledInputForm';
 
 function AskQuestion() {
-  const titleBind = useInput("");
+  const titleBind = useInput('');
   // const bodyBind = useInput("");
   // const detailsBind = useInput("");
 
@@ -21,7 +21,7 @@ function AskQuestion() {
 
   const devUrl = process.env.REACT_APP_DEV_URL;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     const bodyValue = editorBodyRef.current?.getInstance().getHTML();
     const detailsValue = editorDetailsRef.current?.getInstance().getHTML();
