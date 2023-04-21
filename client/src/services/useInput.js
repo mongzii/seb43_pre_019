@@ -1,11 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
 const useInput = () => {
-  const [curValue, setCurValue] = useState("");
+  const [curValue, setCurValue] = useState('');
 
   const bind = {
     curValue,
-    onChange: useCallback((e) => {
+    onChange: useCallback(e => {
       const { value } = e.target;
       setCurValue(value);
     }, []),

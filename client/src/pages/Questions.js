@@ -1,7 +1,23 @@
-import { Link } from "react-router-dom";
-import useAxios from "../services/useAxios";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import useAxios from '../services/useAxios';
 
-import StyledQuestions from "../styles/StyledQuestions";
+const StyledQuestions = styled.ul`
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  > li {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+    :hover {
+      color: gray;
+    }
+  }
+`;
 
 function Questions() {
   // ERR_NGROK_3200
@@ -21,7 +37,7 @@ function Questions() {
   return (
     <div>
       <StyledQuestions>
-        {questions.map((question) => (
+        {questions.map(question => (
           <li key={question.id}>
             <Link to={`/questions/${question.id}`}>
               <h2>{question.title}</h2>

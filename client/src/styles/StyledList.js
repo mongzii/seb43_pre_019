@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledList = styled.div`
   display: flex;
   flex-direction: column;
   width: 800px;
-  margin-left: 30px;
+
   > button {
     background-color: transparent;
     border: none;
@@ -17,6 +17,9 @@ const StyledList = styled.div`
     :hover {
       color: skyblue;
     }
+  }
+  > li {
+    list-style: none;
   }
 `;
 export default StyledList;
