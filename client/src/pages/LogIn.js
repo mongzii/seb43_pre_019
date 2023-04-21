@@ -3,23 +3,27 @@ import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import { AiFillGithub } from 'react-icons/ai';
 import { ImFacebook2 } from 'react-icons/im';
+import { ReactComponent as StackoverFlowLogo } from '../assets/logo-stackof.svg';
+import Header from '../components/header/Header';
 
 const Styledlogin = styled.div`
   border: 2px solid white;
   display: flex;
   flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
   width: 290px;
   margin: auto;
   > * {
     margin: 5px;
   }
 `;
-
 const GoogleButton = styled.button`
   background-color: white;
   border: 1px solid black;
   border-radius: 5px;
   height: 30px;
+  margin-top: 300px;
 `;
 
 const GithubButton = styled.button`
@@ -58,6 +62,7 @@ const Styledloginbox = styled.body`
   > span {
     font-weight: 500;
   }
+
   > input {
     height: 20px;
   }
@@ -81,32 +86,36 @@ const Styledloginbox = styled.body`
 
 function LogIn() {
   return (
-    <main>
-      <Styledlogin>
-        <GoogleButton>
-          <FcGoogle size="19" />
-          Log in with Google
-        </GoogleButton>
-        <GithubButton>
-          <AiFillGithub size="19" />
-          Log in with GitHub
-        </GithubButton>
-        <FacebookButton>
-          <ImFacebook2 size="19" />
-          Log in with Facebook
-        </FacebookButton>
-      </Styledlogin>
-
-      <body>
-        <Styledloginbox>
-          <span>Email</span>
-          <input />
-          <span>Password</span>
-          <input />
-          <button>Log in</button>
-        </Styledloginbox>
-      </body>
-    </main>
+    <>
+      <Header />
+      <main>
+        <Styledlogin>
+          <StackoverFlowLogo />
+          <GoogleButton>
+            <FcGoogle size="19" />
+            Log in with Google
+          </GoogleButton>
+          <GithubButton>
+            <AiFillGithub size="19" />
+            Log in with GitHub
+          </GithubButton>
+          <FacebookButton>
+            <ImFacebook2 size="19" />
+            Log in with Facebook
+          </FacebookButton>
+        </Styledlogin>
+        <body>
+          <Styledloginbox>
+            <span>Email</span>
+            <input />
+            <span>Password</span>
+            <span>Forgot password?</span>
+            <input />
+            <button>Log in</button>
+          </Styledloginbox>
+        </body>
+      </main>
+    </>
   );
 }
 

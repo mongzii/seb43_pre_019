@@ -1,45 +1,40 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { ReactComponent as BoxIcon } from '../../assets/header-box.svg';
+import { ReactComponent as TrophyIcon } from '../../assets/header-trophy.svg';
+import { ReactComponent as QuestionIcon } from '../../assets/header-question.svg';
+import { ReactComponent as TalkIcon } from '../../assets/header-talk.svg';
+import UserImg from '../../assets/user.png';
 
 const Container = styled.div`
   display: flex;
-  margin-left: 6px;
+  justify-content: center;
   align-items: center;
-  width: 132px;
-  gap: 4px;
-`;
-
-const LoginButton = styled.button`
-  background-color: #e1ecf4;
-  color: #39739d;
-  border: 1px solid #b2cbdd;
-  border-radius: 4px;
-  padding: 8px;
-  &:hover {
-    background-color: #b3d3ea;
+  width: 230px;
+  .iconstyle {
+    margin: 8px;
+  }
+  img {
+    margin-left: 10px;
+    width: 24px;
+    height: 24px;
+  }
+  span {
+    font-weight: bold;
+    margin: 0px 30px 0px 5px;
   }
 `;
 
-const SignUpButton = styled.button`
-  background-color: #1e95ff;
-  color: white;
-  border: 1px solid #b2cbdd;
-  border-radius: 4px;
-  padding: 8px;
-  &:hover {
-    background-color: #0074cc;
-  }
-`;
-
-function LoginButtons() {
-  const navigate = useNavigate();
-
+function FourIcons() {
   return (
     <Container>
-      <LoginButton onClick={() => navigate('/login')}>Log in</LoginButton>
-      <SignUpButton>Sign Up</SignUpButton>
+      <img src={UserImg} alt="userimg" />
+      <span>1</span>
+      <BoxIcon className="iconstyle" />
+      <TrophyIcon className="iconstyle" />
+      <QuestionIcon className="iconstyle" />
+      <TalkIcon className="iconstyle" />
     </Container>
   );
 }
 
-export default LoginButtons;
+export default FourIcons;

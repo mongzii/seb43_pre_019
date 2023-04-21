@@ -29,21 +29,9 @@ function AskQuestion() {
       title: titleBind.curValue,
       body: bodyValue,
       details: detailsValue,
-      answers: [],
     };
     axiosCreate(`${devUrl}/questions`, data);
   };
-
-  // markdown editor 사용
-  // const bodyEditorBind = {
-  //   value: bodyValue,
-  //   onChange: setBodyValue,
-  // };
-  // markdown editor 사용
-  // const detailsEditorBind = {
-  //   value: detailsValue,
-  //   onChange: setDetailsValue,
-  // };
 
   return (
     <StyledInputForm onSubmit={handleSubmit}>

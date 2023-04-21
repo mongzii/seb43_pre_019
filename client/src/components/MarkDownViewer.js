@@ -4,7 +4,6 @@ import 'prismjs/themes/prism.css';
 
 function MarkdownViewer({ content }) {
   const html = content;
-  console.log(html);
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }
 

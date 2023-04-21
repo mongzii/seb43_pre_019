@@ -4,13 +4,11 @@ import { Editor } from '@toast-ui/react-editor';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all';
 // 이걸 불러오기만 해도 하이라이팅이 됨
 import 'prismjs/themes/prism.css';
-
 import '@toast-ui/editor/dist/toastui-editor.css';
 
 function MarkDown({ editorRef }) {
   // preview="edit" 는 미리보기가 없는 모드!
   // MdEditor
-  console.log(editorRef);
   return (
     // <MDEditor
     //   preview="edit"
