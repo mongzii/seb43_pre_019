@@ -1,9 +1,9 @@
 // import { Styledlogin, Styledloginbox } from "../styles/StyledLogIn";
 import styled from 'styled-components';
-import { ReactComponent as StackoverFlowLogo } from '../assets/logo-stackof.svg';
 import { FcGoogle } from 'react-icons/fc';
 import { AiFillGithub } from 'react-icons/ai';
 import { ImFacebook2 } from 'react-icons/im';
+import { ReactComponent as StackoverFlowLogo } from '../assets/logo-stackof.svg';
 import Header from '../components/header/Header';
 
 const Styledlogin = styled.div`

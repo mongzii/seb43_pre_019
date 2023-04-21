@@ -7,11 +7,11 @@ import SignUp from './pages/SignUp';
 import Questions from './pages/Questions';
 import Question from './pages/Question';
 import AskQuestion from './pages/AskQuestion';
+import MyPages from './pages/MyPages';
 
 function App() {
   return (
     <BrowserRouter>
-      {/* <Home /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LogIn />} />
@@ -19,6 +19,7 @@ function App() {
         <Route path="/questions" element={<Questions />} />
         <Route path="/questions/:id" element={<Question />} />
         <Route path="/questions/ask" element={<AskQuestion />} />
+        <Route path="/mypages" element={<MyPages />} />
       </Routes>
     </BrowserRouter>
   );

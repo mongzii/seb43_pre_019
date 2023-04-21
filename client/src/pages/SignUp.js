@@ -1,10 +1,4 @@
 import styled from 'styled-components';
-import Header from '../components/header/Header';
-import { FcGoogle } from 'react-icons/fc';
-import { AiFillGithub } from 'react-icons/ai';
-import { ImFacebook2 } from 'react-icons/im';
-import { RiQuestionnaireFill } from 'react-icons/ri';
-
 const Styledbody = styled.div`
   display: flex;
   justify-content: center;
@@ -21,6 +15,7 @@ const Styledmain = styled.div`
     margin: 5px;
   }
 `;
+// 230421 18:51
 
 const Styledsub = styled.div`
   border: 3px solid black;
@@ -98,14 +93,10 @@ const FacebookButton = styled.button`
 function SignUp() {
   return (
     <>
-      <Header />
       <Styledbody>
         <Styledsub>
-          <Styledarticle>Join the Stack Overflow community</Styledarticle>
-          <p>
-            <RiQuestionnaireFill />
-            Get unstuck - ask a question
-          </p>
+          <p>Join the Stack Overflow community</p>
+          <p>Get unstuck - ask a question</p>
           <p>Unlock new pribileges like voting and commenting</p>
           <p>Save your favorite questions, answers, watch tags, and</p>
           <p>more</p>
@@ -115,18 +106,9 @@ function SignUp() {
         </Styledsub>
 
         <Styledmain>
-          <GoogleButton>
-            <FcGoogle size="19" />
-            Sign up with Google
-          </GoogleButton>
-          <GithubButton>
-            <AiFillGithub size="19" />
-            Sign up with GitHub
-          </GithubButton>
-          <FacebookButton>
-            <ImFacebook2 size="19" />
-            Sign up with Facebook
-          </FacebookButton>
+          <button>Sign up with Google</button>
+          <button>Sign up with GitHub</button>
+          <button>Sign up with Facebook</button>
           <Styledinfo>
             <span>Display name</span>
             <input />
