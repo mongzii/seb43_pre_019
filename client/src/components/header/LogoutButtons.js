@@ -37,7 +37,7 @@ function LogoutButtons() {
   return (
     <Container>
       <LoginButton onClick={() => navigate('/login')}>Log in</LoginButton>
-      <SignUpButton>Sign Up</SignUpButton>
+      <SignUpButton onClick={() => navigate('/signup')}>Sign Up</SignUpButton>
     </Container>
   );
 }

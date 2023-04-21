@@ -38,7 +38,7 @@ const StatInnerBox = styled.div`
   width: 219px;
   border: 1px solid lightgray;
   border-radius: 5px;
-  padding: 12px;
+  padding: 12px; //주석
 `;
 
 const StatOne = styled.div`
