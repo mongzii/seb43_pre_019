@@ -1,9 +1,12 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 
 import Logo from './Logo';
-import Nav from './Nav';
+import LoginNav from './LoginNav';
+import LogoutNav from './LogoutNav';
 import Search from './Search';
 import LoginButtons from './LoginButtons';
+import LogoutButtons from './LogoutButtons';
 
 const Container = styled.div`
   display: flex;
@@ -29,13 +32,18 @@ const InnerContainer = styled.div`
 `;
 
 function Header() {
+  const [isLogin, setIsLogin] = useState(true);
+
+  const buttons = isLogin ? <LoginButtons /> : <LogoutButtons />;
+  const navitems = isLogin ? <LoginNav /> : <LogoutNav />;
+
   return (
     <Container>
       <InnerContainer>
         <Logo />
-        <Nav />
+        {navitems}
         <Search />
-        <LoginButtons />
+        {buttons}
       </InnerContainer>
     </Container>
   );
