@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import MyHeader from '../components/mypage/MyHeader';
-import UserMain from '../components/mypage/UserMain';
+import UserActivity from '../components/mypage/UserActivity';
+import UserProfile from '../components/mypage/UserProfile';
 
 const Container = styled.div`
   display: flex;
@@ -11,10 +12,14 @@ const Container = styled.div`
 `;
 
 function MyPages() {
+  const [isProfile, setIsProfile] = useState(true);
+
+  const profilebuttons = isProfile ? <UserProfile /> : <UserActivity />;
+
   return (
     <Container>
       <MyHeader />
-      <UserMain />
+      {profilebuttons}
     </Container>
   );
 }
