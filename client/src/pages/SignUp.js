@@ -1,14 +1,33 @@
 import styled from 'styled-components';
+import Header from '../components/header/Header';
+import { FcGoogle } from 'react-icons/fc';
+import { AiFillGithub } from 'react-icons/ai';
+import { ImFacebook2 } from 'react-icons/im';
+
 const Styledbody = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 `;
 const Styledmain = styled.div`
   display: flex;
   flex-direction: column;
+  // flex-grow: 2;
+
+  > button {
+    margin: 5px;
+  }
 `;
 
 const Styledsub = styled.div`
   border: 3px solid black;
+  margin-right: 30px;
+  line-height: 50px;
+`;
+
+const Styledarticle = styled.div`
+  font-size: 2rem;
 `;
 
 const StyledBts = styled.div`
@@ -19,14 +38,58 @@ const Styledinfo = styled.div`
   border: 3px solid black;
   display: flex;
   flex-direction: column;
+  box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.2);
+
+  > * {
+    margin: 5px;
+  }
+
+  > button {
+    background-color: #0a95ff;
+    color: white;
+    border: 0a95ff;
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    border: white;
+    border-radius: 2px;
+    height: 40px;
+    cursor: pointer;
+  }
+  > button:hover {
+    background-color: #0074cc;
+  }
+`;
+
+const GoogleButton = styled.button`
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 40px;
+`;
+const GithubButton = styled.button`
+  background-color: #2f3337;
+  color: white;
+  border: white;
+  border-radius: 5px;
+  height: 40px;
+`;
+const FacebookButton = styled.button`
+  background-color: #385499;
+  color: white;
+  border: white;
+  border-radius: 5px;
+  height: 40px;
 `;
 
 function SignUp() {
   return (
     <>
+      <Header />
       <Styledbody>
         <Styledsub>
-          <p>Join the Stack Overflow community</p>
+          <Styledarticle>Join the Stack Overflow community</Styledarticle>
           <p>Get unstuck - ask a question</p>
           <p>Unlock new pribileges like voting and commenting</p>
           <p>Save your favorite questions, answers, watch tags, and</p>
@@ -37,9 +100,18 @@ function SignUp() {
         </Styledsub>
 
         <Styledmain>
-          <button>Sign up with Google</button>
-          <button>Sign up with GitHub</button>
-          <button>Sign up with Facebook</button>
+          <GoogleButton>
+            <FcGoogle size="19" />
+            Sign up with Google
+          </GoogleButton>
+          <GithubButton>
+            <AiFillGithub size="19" />
+            Sign up with GitHub
+          </GithubButton>
+          <FacebookButton>
+            <ImFacebook2 size="19" />
+            Sign up with Facebook
+          </FacebookButton>
           <Styledinfo>
             <span>Display name</span>
             <input />
