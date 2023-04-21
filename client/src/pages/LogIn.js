@@ -18,7 +18,6 @@ const Styledlogin = styled.div`
     margin: 5px;
   }
 `;
-
 const GoogleButton = styled.button`
   background-color: white;
   border: 1px solid black;
