@@ -4,7 +4,7 @@ const StyledList = styled.div`
   display: flex;
   flex-direction: column;
   width: 800px;
-  margin-left: 30px;
+
   > button {
     background-color: transparent;
     border: none;
