@@ -1,5 +1,6 @@
 // import { Styledlogin, Styledloginbox } from "../styles/StyledLogIn";
 import styled from 'styled-components';
+import { ReactComponent as StackoverFlowLogo } from '../assets/logo-stackof.svg';
 import { FcGoogle } from 'react-icons/fc';
 import { AiFillGithub } from 'react-icons/ai';
 import { ImFacebook2 } from 'react-icons/im';
@@ -9,6 +10,8 @@ const Styledlogin = styled.div`
   border: 2px solid white;
   display: flex;
   flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
   width: 290px;
   margin: auto;
   > * {
@@ -88,6 +91,7 @@ function LogIn() {
       <Header />
       <main>
         <Styledlogin>
+          <StackoverFlowLogo />
           <GoogleButton>
             <FcGoogle size="19" />
             Log in with Google
