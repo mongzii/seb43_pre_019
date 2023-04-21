@@ -37,13 +37,15 @@ function Questions() {
   return (
     <div>
       <StyledQuestions>
-        {questions.map(question => (
-          <li key={question.id}>
-            <Link to={`/questions/${question.id}`}>
-              <h2>{question.title}</h2>
-            </Link>
-          </li>
-        ))}
+        {!questions
+          ? null
+          : questions.map(question => (
+              <li key={question.id}>
+                <Link to={`/questions/${question.id}`}>
+                  <h2>{question.title}</h2>
+                </Link>
+              </li>
+            ))}
         <Link to="/questions/ask">
           <button type="button">ask question</button>
         </Link>

@@ -4,6 +4,7 @@ import axios from 'axios';
 const useAxios = url => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
+  const [pageInfos, setPageInfos] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -16,20 +17,16 @@ const useAxios = url => {
       },
     })
       .then(response => {
-        setQuestions(response.data);
-        // response.data는 불러와지는데
-        // response.data.answers가 안 불러와진다??
-        // 나랑 장난쳐?
-        // 알고 있으면서 모른 척을 해?
-        // 하 나..
+        console.log(response.data);
 
-        console.log(response.data.answers);
+        setQuestions(response.data);
         setAnswers(response.data.answers);
+        setPageInfos(response.data.pageInfos);
       })
       .catch(err => setError(err.message));
   }, [url]);
 
-  return [questions, setQuestions, answers, setAnswers, error];
+  return [questions, setQuestions, answers, setAnswers, pageInfos, error];
 };
 
 export default useAxios;
