@@ -3,6 +3,7 @@ import Header from '../components/header/Header';
 import { FcGoogle } from 'react-icons/fc';
 import { AiFillGithub } from 'react-icons/ai';
 import { ImFacebook2 } from 'react-icons/im';
+import { RiQuestionnaireFill } from 'react-icons/ri';
 
 const Styledbody = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ const Styledmain = styled.div`
   display: flex;
   flex-direction: column;
   // flex-grow: 2;
+  width: 380px;
 
   > button {
     margin: 5px;
@@ -42,6 +44,16 @@ const Styledinfo = styled.div`
 
   > * {
     margin: 5px;
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+  > span {
+    margin-top: 20px;
+  }
+
+  > input {
+    height: 35px;
   }
 
   > button {
@@ -90,7 +102,10 @@ function SignUp() {
       <Styledbody>
         <Styledsub>
           <Styledarticle>Join the Stack Overflow community</Styledarticle>
-          <p>Get unstuck - ask a question</p>
+          <p>
+            <RiQuestionnaireFill />
+            Get unstuck - ask a question
+          </p>
           <p>Unlock new pribileges like voting and commenting</p>
           <p>Save your favorite questions, answers, watch tags, and</p>
           <p>more</p>
