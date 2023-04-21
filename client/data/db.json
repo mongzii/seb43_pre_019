@@ -1,0 +1,42 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "title": "example",
+      "body": "<p>이런 문제가 있어요</p><div data-language=\"javascript\" class=\"toastui-editor-ww-code-block-highlighting\"><pre class=\"language-javascript\"><code data-language=\"javascript\" class=\"language-javascript\"><span class=\"token keyword\">function</span> <span class=\"token punctuation\">(</span><span class=\"token parameter\">a</span><span class=\"token parameter punctuation\">,</span><span class=\"token parameter\"> b</span><span class=\"token punctuation\">)</span> <span class=\"token punctuation\">{</span>\n    <span class=\"token keyword control-flow\">return</span> a <span class=\"token operator\">+</span> b<span class=\"token punctuation\">;</span>\n<span class=\"token punctuation\">}</span></code></pre></div>",
+      "details": "<p>이렇게 돼야 하는 거 아닌가요?</p><div data-language=\"javascript\" class=\"toastui-editor-ww-code-block-highlighting\"><pre class=\"language-javascript\"><code data-language=\"javascript\" class=\"language-javascript\"><span class=\"token keyword\">const</span> <span class=\"token function-variable function\">foo</span> <span class=\"token operator\">=</span> <span class=\"token punctuation\">(</span><span class=\"token parameter\">a</span><span class=\"token parameter punctuation\">,</span><span class=\"token parameter\"> b</span><span class=\"token punctuation\">)</span> <span class=\"token arrow operator\">=&gt;</span> <span class=\"token punctuation\">{</span>\n    <span class=\"token keyword control-flow\">return</span> a <span class=\"token operator\">+</span> b<span class=\"token punctuation\">;</span>\n<span class=\"token punctuation\">}</span></code></pre></div>",
+      "answers": [
+        {
+          "id": 1,
+          "body": "<p>이렇게 하면 될듯?</p><div data-language=\"javascript\" class=\"toastui-editor-ww-code-block-highlighting\"><pre class=\"language-javascript\"><code data-language=\"javascript\" class=\"language-javascript\"><span class=\"token keyword\">function</span> <span class=\"token punctuation\">(</span><span class=\"token parameter\">a</span><span class=\"token parameter punctuation\">,</span><span class=\"token parameter\"> b</span><span class=\"token punctuation\">)</span> <span class=\"token punctuation\">{</span>\n    <span class=\"token keyword control-flow\">return</span> a <span class=\"token operator\">+</span> b<span class=\"token punctuation\">;</span>\n<span class=\"token punctuation\">}</span></code></pre></div>"
+        }
+      ],
+      "pageInfos": {
+        "page": 2,
+        "size": 10,
+        "totalElements": 11,
+        "totalPages": 2
+      }
+    },
+    {
+      "title": "example2",
+      "body": "<p>12312412412</p>",
+      "details": "<p>4124324234234</p>",
+      "answers": [
+        {
+          "body": "<div data-language=\"text\" class=\"toastui-editor-ww-code-block-highlighting\"><pre><code> 123123</code></pre></div>"
+        },
+        {
+          "body": "<blockquote><p>123123123213</p></blockquote>"
+        },
+        {
+          "body": "<div data-language=\"javascript\" class=\"toastui-editor-ww-code-block-highlighting\"><pre class=\"language-javascript\"><code data-language=\"javascript\" class=\"language-javascript\">asdasdasdasdasdasdasdsad</code></pre></div>"
+        },
+        {
+          "body": "<div data-language=\"javascript\" class=\"toastui-editor-ww-code-block-highlighting\"><pre class=\"language-javascript\"><code data-language=\"javascript\" class=\"language-javascript\"><span class=\"token keyword\">function</span> <span class=\"token punctuation\">(</span><span class=\"token parameter\">a</span><span class=\"token parameter punctuation\">,</span><span class=\"token parameter\">b</span><span class=\"token punctuation\">)</span> <span class=\"token punctuation\">{</span>\n    <span class=\"token keyword control-flow\">return</span> a <span class=\"token operator\">+</span> b<span class=\"token punctuation\">;</span>\n<span class=\"token punctuation\">}</span></code></pre></div>"
+        }
+      ],
+      "id": 2
+    }
+  ]
+}
