@@ -96,9 +96,14 @@ function Question() {
   const handleSubmit = e => {
     e.preventDefault();
     const answerValue = editorAnswerRef.current?.getInstance().getHTML();
-    // answer 하나만 보내면 어차피 갱신된 question을 보내주므로, answer을 POST 요청
+    // answer 하나만 보내면 어차피 갱신된 question을 보내주므로,
+    // question PATCH 요청 X. answer을 POST 요청한다.
     const newAnswer = { content: answerValue };
     axiosCreateAnswer(`${devUrl}/questions/${id}/answers`, newAnswer, id);
+  };
+
+  const handleEdit = () => {
+    navigate(`/questions/${id}/edit`);
   };
 
   const handlePage = async page => {
@@ -106,13 +111,11 @@ function Question() {
     // axiosGet(`${devUrl}/questions/${id}?page=2`)
 
     navigate(`?page=${page}`);
-
     try {
       await axios(`${devUrl}/questions/${id}?page=${page}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          // ngrok 으로 데이터 받을 때 browser warning 스킵
           'ngrok-skip-browser-warning': '69420',
         },
       })
@@ -156,9 +159,14 @@ function Question() {
         <hr />
         <MarkdownViewer content={question.body} />
         <MarkdownViewer content={question.details} />
-        <button type="button" onClick={handleDelete}>
-          delete
-        </button>
+        <div className="buttonContainer">
+          <button type="button" className="textBut" onClick={handleEdit}>
+            edit
+          </button>
+          <button type="button" className="textBut" onClick={handleDelete}>
+            delete
+          </button>
+        </div>
       </StyledList>
 
       <StyledAnswer>
