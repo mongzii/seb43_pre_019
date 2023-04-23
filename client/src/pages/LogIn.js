@@ -88,36 +88,33 @@ const Styledloginbox = styled.body`
 
 const User = {
   email: 'abc@naver.com',
-  password: '12345'
-}
+  password: '12345',
+};
 
 function LogIn() {
-
- 
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  function onEmailHandler (e)  {
+
+  function onEmailHandler(e) {
     setEmail(e.target.value);
     // console.log(e.target.value);
   }
-  function onPasswordHandler (e) {
+  function onPasswordHandler(e) {
     setPassword(e.target.value);
   }
 
-  function onSubmitHandler (){
+  function onSubmitHandler() {
     // console.log('submit');
-    //내가 가지고 있는 정보 중 email과 password가 같은지 확인하고 같다면 navbar상태 바뀌고 home화면 떠야한다.
-    //같지않다면 경고창 떠야한다. radius가 red로 되야한다.
-    //navbar의 상태가 바뀌어야한다.
+    // 내가 가지고 있는 정보 중 email과 password가 같은지 확인하고 같다면 navbar상태 바뀌고 home화면 떠야한다.
+    // 같지않다면 경고창 떠야한다. radius가 red로 되야한다.
+    // navbar의 상태가 바뀌어야한다.
     // console.log(email);
-    if(email ===User.email && password ===User.password){
+    if (email === User.email && password === User.password) {
       console.log('로그인성공');
-      //navbar상태 바뀌어야한다. 그리고 home화면 떠야한다.
-    }else {
+      // navbar상태 바뀌어야한다. 그리고 home화면 떠야한다.
+    } else {
       console.log('실패당당당');
-      //경고창떠야한다. radius가 red로 되어야한다.
+      // 경고창떠야한다. radius가 red로 되어야한다.
     }
   }
 
@@ -143,10 +140,10 @@ function LogIn() {
         <body>
           <Styledloginbox>
             <span>Email</span>
-            <input onChange={onEmailHandler}/>
+            <input onChange={onEmailHandler} />
             <span>Password</span>
             {/* <span>Forgot password?</span> */}
-            <input type='password' onChange={onPasswordHandler}/>
+            <input type="password" onChange={onPasswordHandler} />
             <button onClick={onSubmitHandler}>Log in</button>
           </Styledloginbox>
         </body>

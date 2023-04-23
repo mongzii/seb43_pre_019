@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Header from '../components/header/Header';
 
@@ -18,7 +19,6 @@ const Styledmain = styled.div`
     margin: 5px;
   }
 `;
-// 230421 18:51
 
 const Styledsub = styled.div`
   border: 3px solid black;
@@ -26,13 +26,13 @@ const Styledsub = styled.div`
   line-height: 50px;
 `;
 
-const Styledarticle = styled.div`
-  font-size: 2rem;
-`;
+// const Styledarticle = styled.div`
+//   font-size: 2rem;
+// `;
 
-const StyledBts = styled.div`
-  border: 3px solid blue;
-`;
+// const StyledBts = styled.div`
+//   border: 3px solid blue;
+// `;
 
 const Styledinfo = styled.div`
   border: 3px solid black;
@@ -72,45 +72,22 @@ const Styledinfo = styled.div`
   }
 `;
 
-const GoogleButton = styled.button`
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 5px;
-  height: 40px;
-`;
-const GithubButton = styled.button`
-  background-color: #2f3337;
-  color: white;
-  border: white;
-  border-radius: 5px;
-  height: 40px;
-`;
-const FacebookButton = styled.button`
-  background-color: #385499;
-  color: white;
-  border: white;
-  border-radius: 5px;
-  height: 40px;
-`;
-
-//230423 20:45 upload
 function SignUp() {
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  function onHandleName (e) {
+  function onHandleName(e) {
     setName(e.target.value);
     // console.log(e.target.value);
   }
 
-  function onHandleEmail (e) {
+  function onHandleEmail(e) {
     setEmail(e.target.value);
     // console.log(e.target.value);
   }
 
-  function onHandlePassword (e) {
+  function onHandlePassword(e) {
     setPassword(e.target.value);
     // console.log(e.target.value);
   }
@@ -118,10 +95,20 @@ function SignUp() {
   // function handleSignup(){
 
   // }
+  // useSelector써서 store에 있는 함수를 가져와서 쓴다.
+  // store에 있는 모든 state를 가져오게된거다.
+  const State = useSelector(state => {
+    return state;
+  });
+  // console.log(State);
+  // console.log(State.emailwrite);
+  console.log(State.info[1]);
+  console.log(State.info[1].pwpart);
+  // 0424 2:16am
 
   return (
     <>
-    <Header />
+      <Header />
       <Styledbody>
         <Styledsub>
           <p>Join the Stack Overflow community</p>
@@ -140,18 +127,18 @@ function SignUp() {
           <button>Sign up with Facebook</button>
           <Styledinfo>
             <span>Display name</span>
-            <input onChange={onHandleName}/>
+            <input value={name} onChange={onHandleName} />
             <span>Email</span>
-            <input onChange={onHandleEmail}/>
+            <input value={email} onChange={onHandleEmail} />
             <span>Password</span>
-            <input type='password' onChange={onHandlePassword}/>
+            <input value={password} type="password" onChange={onHandlePassword} />
             <p>Passwords must contain at least eight characters,</p>
             <p>including at least 1 letter and 1 number.</p>
             <p>Opt-in to receive occasional product</p>
             <p>updates, user research invitations, company</p>
             <p>announcements, and digests.</p>
             <button>Sign up</button>
-            <p>By clicking "Sign up", you agree to our terms of</p>
+            <p>By clicking Sign up, you agree to our terms of</p>
             <p>service, privacy policy and cookie policy</p>
           </Styledinfo>
         </Styledmain>
