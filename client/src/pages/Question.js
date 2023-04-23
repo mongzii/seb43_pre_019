@@ -6,68 +6,259 @@ import axios from 'axios';
 import useAxios from '../services/useAxios';
 import { axiosCreate, axiosDelete, axiosPatch, axiosCreateAnswer } from '../services/api';
 
-import StyledList from '../styles/StyledList';
-
 import { MarkDown } from '../components/Input';
 import StyledInputForm from '../styles/StyledInputForm';
 import MarkdownViewer from '../components/MarkDownViewer';
+import { ReactComponent as VscTriangleDown } from '../assets/vsc-triangle-down.svg';
+import { ReactComponent as VscTriangleUp } from '../assets/vsc-triangle-up.svg';
+import { ReactComponent as BookMark } from '../assets/book-mark.svg';
+import { ReactComponent as IconHistory } from '../assets/ic-history.svg';
 
 const StyledQuestionContainer = styled.div`
+  h2 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI Adjusted', 'Segoe UI',
+      'Liberation Sans', sans-serif;
+    font-weight: normal;
+    color: hsl(210, 8%, 25%);
+  }
+  h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI Adjusted', 'Segoe UI',
+      'Liberation Sans', sans-serif;
+    font-weight: normal;
+    color: hsl(210, 8%, 25%);
+  }
   padding: 24px;
   display: flex;
   flex-direction: column;
-  code {
-    font-size: 1rem;
-    font-family: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', 'Liberation Mono', Menlo,
-      Monaco, Consolas, monospace;
-  }
+
   .questionHeader {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
-  hr {
-    border: 0;
-    height: 1px;
-    border-top: 1px solid black;
+  .date-wrap {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    font-size: 12px;
+    border-bottom: 1px solid hsl(210, 8%, 75%);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    > * {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      span {
+        color: hsl(210, 8%, 40%);
+      }
+    }
+  }
+
+  .post-layout {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    .post-body {
+      p {
+        margin-bottom: 1.1em;
+        line-height: 1.5em;
+      }
+      code {
+        font-size: 13px;
+        font-family: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', 'Liberation Mono',
+          Menlo, Monaco, Consolas, monospace;
+      }
+    }
+  }
+
+  .votecell {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    margin-right: 20px;
+
+    .saves-btn {
+      border: none;
+      background-color: transparent;
+      padding: 4px 0 4px 0;
+    }
+
+    .post-issue {
+      background-color: transparent;
+      padding: 4px 0 4px 0;
+    }
+
+    .iconArrowUpLg,
+    .iconArrowDownLg {
+      fill: hsl(210, 8%, 75%);
+      cursor: pointer;
+    }
+    .iconBookmark {
+      stroke: hsl(210, 8%, 55%);
+      fill: transparent;
+      cursor: pointer;
+    }
+
+    .iconHistory {
+      fill: hsl(210, 8%, 70%);
+      cursor: pointer;
+      :hover {
+        fill: #0a95ff;
+      }
+    }
+  }
+  .postcell {
+    width: 100%;
+    button {
+      background-color: transparent;
+      border: none;
+      color: gray;
+    }
+    .post-footer {
+      width: 100%;
+    }
+    .post-footer-wrap {
+      display: flex;
+      flex-direction: row;
+
+      margin: 16px 0 16px 0;
+      > * {
+        flex-grow: 1;
+        margin: 4px 0 4px 0;
+      }
+      .post-editor {
+        color: #2587d2;
+        font-size: 12px;
+        .editedtime {
+          margin-left: 4px;
+        }
+      }
+      .user-info {
+        font-size: 12px;
+        border-radius: 5px;
+        padding: 5px 6px 7px 7px;
+        background-color: #d9eaf7;
+        display: flex;
+        flex-direction: column;
+        .user-action-time {
+          margin: 1px 0 4px 0;
+          .postedtime {
+            margin-left: 4px;
+          }
+        }
+        .user-details {
+        }
+
+        span {
+          color: hsl(210, 8%, 40%);
+        }
+        .user-wrap {
+          display: flex;
+          flex-direction: row;
+          .user-avatar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .user-details {
+            margin-left: 8px;
+            font-size: 12px;
+            .user-name {
+            }
+            .flair {
+              margin-top: 4px;
+              display: flex;
+              flex-direction: row;
+              gap: 4px;
+              > .goldBadge::before {
+                content: '●';
+                font-size: 10px;
+                color: gold;
+                padding-top: 3px;
+                margin-right: 3px;
+              }
+              .goldBadge {
+                display: flex;
+                flex-direction: row;
+              }
+              > .silverBadge::before {
+                content: '●';
+                font-size: 10px;
+                color: silver;
+                padding-top: 3px;
+                margin-right: 3px;
+              }
+              .silverBadge {
+                display: flex;
+                flex-direction: row;
+              }
+              > .copperBadge::before {
+                content: '●';
+                font-size: 10px;
+                color: #d1a684;
+                padding-top: 3px;
+                margin-right: 3px;
+              }
+              .copperBadge {
+                display: flex;
+                flex-direction: row;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `;
 const StyledAnswer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 800px;
+  width: 100%;
 
   li {
     list-style: none;
   }
-  .buttonContainer {
+  .post-buttons {
     display: flex;
     flex-direction: row;
-
-    button {
-      background-color: white;
-      border: 1px solid lightgray;
-      width: 30px;
-      height: 30px;
-      border-radius: 5px;
-    }
-
-    button:hover {
-      background-color: gray;
-    }
-
-    button:active {
-      background-color: orange;
-    }
+    gap: 4px;
   }
 `;
 
 const BlueButton = styled.button`
   background-color: #1e95ff;
   color: white;
-  border: 0;
+
   border-radius: 5px;
   padding: 12px 10px;
+  width: fit-content;
+  /* boxshadow & border로 안쪽 입체감 주기 */
+  box-shadow: inset 0px 1px 0px 0 #79c1ff;
+  border: 1px solid #1e95ff;
+  cursor: pointer;
+`;
+
+const PageButton = styled.button`
+  background-color: ${props => (props.isActive ? '#f48225' : 'white')};
+  color: ${props => (props.isActive ? 'white' : 'black')};
+  border: ${props =>
+    props.isActive ? '1px solid #f48225' : '1px solid hsl(210, 8%, 75%)'};
+
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  :hover {
+    border: ${props =>
+      props.isActive ? '1px solid #f48225' : '1px solid hsl(210, 8%, 75%)'};
+    background-color: ${props => (props.isActive ? '#f48225' : 'hsl(210, 8%, 90%)')};
+  }
+
+  /* 선택된 버튼 스타일 */
+  &.active {
+    background-color: orange;
+  }
 `;
 
 function Question() {
@@ -80,6 +271,7 @@ function Question() {
   // pageInfos가 Question에서 변경될 수 있기 때문에 useState로 관리
   const [pageInfosData, setPageInfosData] = useState(null);
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
 
   // answers가 바뀌면 answersData가 변할 수 있도록 useEffect 사용
   useEffect(() => {
@@ -129,23 +321,26 @@ function Question() {
     } catch (error) {
       // 에러 처리 로직
     }
+    setCurrentPage(page);
   };
 
   const pageButtons = [];
 
   if (pageInfosData) {
     for (let i = 1; i <= pageInfosData.totalPages; i += 1) {
+      const isActive = currentPage === i;
+      console.log(i, isActive);
       pageButtons.push(
-        <button key={i} onClick={() => handlePage(i)}>
+        <PageButton key={i} isActive={isActive} onClick={() => handlePage(i)}>
           {i}
-        </button>,
+        </PageButton>,
       );
     }
   }
 
   return (
     <StyledQuestionContainer>
-      <StyledList>
+      <div className="question">
         <div className="questionHeader">
           <h2>{question.title}</h2>
           <BlueButton
@@ -156,44 +351,102 @@ function Question() {
             Ask Question
           </BlueButton>
         </div>
-        <hr />
-        <MarkdownViewer content={question.body} />
-        <MarkdownViewer content={question.details} />
-        <div className="buttonContainer">
-          <button type="button" className="textBut" onClick={handleEdit}>
-            edit
-          </button>
-          <button type="button" className="textBut" onClick={handleDelete}>
-            delete
-          </button>
+        <div className="date-wrap">
+          <div className="asked-date">
+            <span>Asked</span>
+            <div>2 days ago</div>
+          </div>
+          <div className="modified-date">
+            <span>Modified</span>
+            <div>today</div>
+          </div>
+          <div className="viewed-count">
+            <span>Viewed</span>
+            <div>25 times</div>
+          </div>
         </div>
-      </StyledList>
+
+        <div className="post-layout">
+          <div className="votecell">
+            <VscTriangleUp />
+            <div>2</div>
+            <VscTriangleDown />
+            <button className="saves-btn">
+              <BookMark />
+            </button>
+            <a href="/" className="post-issue">
+              <IconHistory />
+            </a>
+          </div>
+          <div className="postcell">
+            <div className="post-body">
+              <MarkdownViewer content={question.body} />
+
+              <div className="post-tags" />
+              <div className="post-footer">
+                <div className="post-footer-wrap">
+                  <div className="button-wrap">
+                    <button type="button" className="textBut">
+                      share
+                    </button>
+                    <button type="button" className="textBut" onClick={handleEdit}>
+                      edit
+                    </button>
+                    <button type="button" className="textBut" onClick={handleDelete}>
+                      delete
+                    </button>
+                    <button type="button" className="textBut">
+                      follow
+                    </button>
+                  </div>
+                  <div className="post-editor">
+                    <span>edited</span>
+                    <span className="editedtime">Dec 23, 2021 at 20:30</span>
+                  </div>
+                  <div className="post-writer">
+                    <div className="user-info">
+                      <div className="user-action-time">
+                        <span>asked</span>
+                        <span title="2023-04-23 04:48:13Z" className="postedtime">
+                          15 mins ago
+                        </span>
+                      </div>
+                      <div className="user-wrap">
+                        <div className="user-avatar">
+                          <img
+                            src="https://www.gravatar.com/avatar/741bc7bd7d33891f99a5de08d73c66b2?s=64&d=identicon&r=PG&f=1"
+                            alt="dummy-avatar"
+                            width="32"
+                            height="32"
+                            className="avatar-pic"
+                          />
+                        </div>
+                        <div className="user-details">
+                          <a className="user-name" href="/">
+                            hajongon
+                          </a>
+                          <div className="flair">
+                            <span>4,379</span>
+                            <span className="goldBadge">3</span>
+                            <span className="silverBadge">3</span>
+                            <span className="copperBadge">3</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <StyledAnswer>
+        {pageInfosData ? (
+          <h3>{!pageInfosData ? 0 : pageInfosData.totalElements} Answers</h3>
+        ) : null}
         <div className="buttonContainer">{pageButtons}</div>
-        {/* <button
-          onClick={() => {
-            handlePage(1);
-          }}
-        >
-          1
-        </button>
-        <button
-          onClick={() => {
-            handlePage(2);
-          }}
-        >
-          2
-        </button>
-        <button
-          onClick={() => {
-            handlePage(3);
-          }}
-        >
-          3
-        </button> */}
-
-        <h2>{!pageInfosData ? 0 : pageInfosData.totalElements} Answers</h2>
         {!answersData
           ? null
           : answersData.map(el => {
@@ -207,8 +460,11 @@ function Question() {
             })}
       </StyledAnswer>
       <StyledInputForm onSubmit={handleSubmit}>
+        <h3>Your Answer</h3>
         <MarkDown editorRef={editorAnswerRef} />
-        <button type="submit">submit</button>
+        <div className="form-submit">
+          <BlueButton type="submit">Post Your Answer</BlueButton>
+        </div>
       </StyledInputForm>
     </StyledQuestionContainer>
   );

@@ -15,7 +15,6 @@ function MarkDown({ editorRef }) {
     //   value={editorBind.value}
     //   onChange={editorBind.onChange}
     // />
-
     <Editor
       ref={editorRef}
       plugins={[codeSyntaxHighlight]}
@@ -23,7 +22,6 @@ function MarkDown({ editorRef }) {
       initialValue=" "
       previewStyle="tab" // 미리보기 스타일 지정
       height="300px" // 에디터 창 높이
-      // initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
       toolbarItems={[
         // 툴바 옵션 설정
         ['heading', 'bold', 'italic', 'strike'],
