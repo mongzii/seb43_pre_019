@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import Header from '../components/header/Header';
+
 const Styledbody = styled.div`
   display: flex;
   justify-content: center;
@@ -90,9 +93,35 @@ const FacebookButton = styled.button`
   height: 40px;
 `;
 
+//230423 20:45 upload
 function SignUp() {
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  function onHandleName (e) {
+    setName(e.target.value);
+    // console.log(e.target.value);
+  }
+
+  function onHandleEmail (e) {
+    setEmail(e.target.value);
+    // console.log(e.target.value);
+  }
+
+  function onHandlePassword (e) {
+    setPassword(e.target.value);
+    // console.log(e.target.value);
+  }
+
+  // function handleSignup(){
+
+  // }
+
   return (
     <>
+    <Header />
       <Styledbody>
         <Styledsub>
           <p>Join the Stack Overflow community</p>
@@ -111,11 +140,11 @@ function SignUp() {
           <button>Sign up with Facebook</button>
           <Styledinfo>
             <span>Display name</span>
-            <input />
+            <input onChange={onHandleName}/>
             <span>Email</span>
-            <input />
+            <input onChange={onHandleEmail}/>
             <span>Password</span>
-            <input />
+            <input type='password' onChange={onHandlePassword}/>
             <p>Passwords must contain at least eight characters,</p>
             <p>including at least 1 letter and 1 number.</p>
             <p>Opt-in to receive occasional product</p>
