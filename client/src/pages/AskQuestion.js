@@ -27,9 +27,10 @@ function AskQuestion() {
     const detailsValue = editorDetailsRef.current?.getInstance().getHTML();
     const data = {
       title: titleBind.curValue,
-      body: bodyValue,
+      body: `${bodyValue}\n${detailsValue}`,
       details: detailsValue,
     };
+    console.log(data);
     axiosCreate(`${devUrl}/questions`, data);
   };
 

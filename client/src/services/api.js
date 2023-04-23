@@ -4,13 +4,13 @@ const BASE_URL = 'http://localhost:3000/';
 const QUESTIONS_URL = 'http://localhost:3000/questions/';
 
 export const axiosCreate = (url, data) => {
-  console.log(url, data);
+  console.log(data);
   axios(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      // 'ngrok-skip-browser-warning': '임의의 값',
+      'ngrok-skip-browser-warning': '69420',
     },
     data: JSON.stringify(data),
   })
