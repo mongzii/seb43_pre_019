@@ -76,6 +76,7 @@ function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [login, setLogin] = useState(null);
 
   function onHandleName(e) {
     setName(e.target.value);
@@ -91,10 +92,25 @@ function SignUp() {
     setPassword(e.target.value);
     // console.log(e.target.value);
   }
+  const SignupHandler = e => {
+    e.preventDefault();
+    // console.log(e.type);
+    // console.log(email);
+    // console.log(name);
+    fetch(`http://localhost:8081/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+      }),
+    })
+      .then(res => res.json())
 
-  // function handleSignup(){
+      .then(data => setLogin(data));
+  };
 
-  // }
   // useSelector써서 store에 있는 함수를 가져와서 쓴다.
   // store에 있는 모든 state를 가져오게된거다.
   const State = useSelector(state => {
@@ -102,8 +118,8 @@ function SignUp() {
   });
   // console.log(State);
   // console.log(State.emailwrite);
-  console.log(State.info[1]);
-  console.log(State.info[1].pwpart);
+  // console.log(State.info[1]);
+  // console.log(State.info[1].pwpart);
   // 0424 2:16am
 
   return (
@@ -137,7 +153,7 @@ function SignUp() {
             <p>Opt-in to receive occasional product</p>
             <p>updates, user research invitations, company</p>
             <p>announcements, and digests.</p>
-            <button>Sign up</button>
+            <button onClick={SignupHandler}>Sign up</button>
             <p>By clicking Sign up, you agree to our terms of</p>
             <p>service, privacy policy and cookie policy</p>
           </Styledinfo>
