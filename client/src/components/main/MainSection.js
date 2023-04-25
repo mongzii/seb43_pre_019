@@ -163,7 +163,6 @@ function MainSection() {
           <button>Bountied</button>
           <button>Unanswered</button>
           <button>More</button>
-
           <button className="filter">Filter</button>
         </ButtonList>
       </TopSecond>
