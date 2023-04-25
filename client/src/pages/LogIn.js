@@ -1,7 +1,8 @@
 // import { Styledlogin, Styledloginbox } from "../styles/StyledLogIn";
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-// import axios from 'axios';
+import axios from 'axios';
 // import useAxios from '../services/useAxios';
 // import SignUp from './SignUp';
 import { FcGoogle } from 'react-icons/fc';
@@ -89,16 +90,13 @@ const Styledloginbox = styled.body`
   }
 `;
 
-// const User = {
-//   email: 'abc@naver.com',
-//   password: '12345',
-// };
-
 function LogIn() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
   // const [name, setName] = useState('');
   // const [login, setLogin] = useState([]);
 
@@ -120,27 +118,77 @@ function LogIn() {
   function onPasswordHandler(e) {
     setPassword(e.target.value);
   }
-  const onSubmitHandler = () => {
-    // return axios.get(`http://localhost:8081/login`).then(res => {
-    //   console.log(res.data);
-    // });
-    fetch(`http://localhost:8081/login`, {
-      method: 'GET',
-    })
-      .then(res => res.json())
-      .then(data => {
-        // console.log(data); //0425 12:13pm
-        const user = data.find(
-          info => info.email === email && info.password === password,
-        );
-        // console.log(user);
-        if (user) {
-          console.log('통과');
-        } else {
-          console.log('다시해');
-        }
+  const onSubmitHandler = e => {
+    // 0425 22:33pm
+    e.preventDefault();
+    axios
+      .post(`${process.env.REACT_APP_DEV_URL}/login`, { email, password })
+      .then(res => {
+        console.log(res.data);
+        // console.log(res.status);
+        navigate('/');
+        setUserInfo(res.data);
+        setIsLogin(true);
+        // 헤드바 바뀌는거추가해야함.
+      })
+      .catch(err => {
+        console.log(err.response.data);
+        alert('다시해');
       });
   };
+  // const onSubmitHandler = () => {
+  //   fetch(`${process.env.REACT_APP_DEV_URL}/login`, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({
+  //       email,
+  //       password,
+  //     }),
+  //   })
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       console.log(res);
+  //       navigate('/');
+  //       // setIsLogin(true);
+  //       setIsLogin(res.data.isLogin);
+  //       // localStorage.seyItem('accessToken', res.data);
+
+  //       // const user = data.find(
+  //       //   info => info.email === email && info.password === password,
+  //       // );
+  //       // console.log(user);
+  //       // if (user) {
+  //       //   console.log('통과');
+  //       // } else {
+  //       //   console.log('다시해');
+  //       // }
+  //     })
+  //     .catch(err => console.log(err.message));
+
+  //   // .then(res => {
+  //   //   if (res.ok) {
+  //   //     console.log(res);
+  //   //   } else {
+  //   //     console.log('다시해');
+  //   //   }
+  //   // })
+  //   // .catch(error => {
+  //   //   console.log('망한건가');
+  //   // });
+  //   // .then(res => res.json())
+  //   // .then(data => {
+  //   //   console.log(data);
+  //   //   const user = data.find(
+  //   //     info => info.email === email && info.password === password,
+  //   //   );
+  //   //   // console.log(user);
+  //   //   if (user) {
+  //   //     console.log('통과');
+  //   //   } else {
+  //   //     console.log('다시해');
+  //   //   }
+  //   // });
+  // };
 
   // const fetchLogin = async () => {
   //   const { data } = await axios.get(`${devUrl}/login`);

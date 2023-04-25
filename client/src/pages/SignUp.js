@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 import styled from 'styled-components';
 import Header from '../components/header/Header';
 
@@ -79,6 +81,8 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [login, setLogin] = useState(null);
 
+  const navigate = useNavigate();
+
   // const [emailValid, setEmailValid] = useState(false);
   // const [passwordValid, setPasswordValid] = useState(false);
   // const [notAllow, setNotAllow] = useState(true);
@@ -118,25 +122,38 @@ function SignUp() {
   //   }
   //   setNotAllow(true);
   // }, [emailValid, passwordValid]);
-
   const SignupHandler = e => {
     e.preventDefault();
-    // console.log(e.type);
-    // console.log(email);
-    // console.log(name);
-    fetch(`http://localhost:8081/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-    })
-      .then(res => res.json())
-
-      .then(data => setLogin(data));
+    axios
+      .post(`${process.env.REACT_APP_DEV_URL}/sign`, { name, email, password })
+      .then(res => {
+        console.log(res.data);
+        navigate('/login');
+      })
+      .catch(err => {
+        console.log(err.response.data);
+        alert('가입에 실패했습니다.');
+      });
   };
+
+  // const SignupHandler = e => {
+  //   e.preventDefault();
+  //   // console.log(e.type);
+  //   // console.log(email);
+  //   // console.log(name);
+  //   fetch(`http://localhost:8081/sign`, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({
+  //       name,
+  //       email,
+  //       password,
+  //     }),
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => console.log(data));
+  //   // .then(data => setLogin(data));
+  // };
 
   // useSelector써서 store에 있는 함수를 가져와서 쓴다.
   // store에 있는 모든 state를 가져오게된거다.
