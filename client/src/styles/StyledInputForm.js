@@ -11,9 +11,12 @@ const StyledInputForm = styled.form`
     height: 200px;
   }
 
-  > button {
+  /* > button {
     margin-top: 20px;
     width: 80px;
+  } */
+  .form-submit {
+    padding: 10px 0 15px 0;
   }
 `;
 

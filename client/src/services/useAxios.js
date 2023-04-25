@@ -17,8 +17,7 @@ const useAxios = url => {
       },
     })
       .then(response => {
-        console.log(response.data);
-
+        // console.log(response.data);
         setQuestions(response.data);
         setAnswers(response.data.answers);
         setPageInfos(response.data.pageInfos);

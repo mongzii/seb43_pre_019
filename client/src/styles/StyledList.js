@@ -5,7 +5,7 @@ const StyledList = styled.div`
   flex-direction: column;
   width: 800px;
 
-  > button {
+  .textBut {
     background-color: transparent;
     border: none;
     color: blue;
