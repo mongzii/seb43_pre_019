@@ -3,6 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
 // import useAxios from '../services/useAxios';
+// import SignUp from './SignUp';
 import { FcGoogle } from 'react-icons/fc';
 import { AiFillGithub } from 'react-icons/ai';
 import { ImFacebook2 } from 'react-icons/im';
@@ -94,6 +95,8 @@ const Styledloginbox = styled.body`
 // };
 
 function LogIn() {
+  const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [name, setName] = useState('');
@@ -117,7 +120,27 @@ function LogIn() {
   function onPasswordHandler(e) {
     setPassword(e.target.value);
   }
-  const onSubmitHandler = () => {};
+  const onSubmitHandler = () => {
+    // return axios.get(`http://localhost:8081/login`).then(res => {
+    //   console.log(res.data);
+    // });
+    fetch(`http://localhost:8081/login`, {
+      method: 'GET',
+    })
+      .then(res => res.json())
+      .then(data => {
+        // console.log(data); //0425 12:13pm
+        const user = data.find(
+          info => info.email === email && info.password === password,
+        );
+        // console.log(user);
+        if (user) {
+          console.log('통과');
+        } else {
+          console.log('다시해');
+        }
+      });
+  };
 
   // const fetchLogin = async () => {
   //   const { data } = await axios.get(`${devUrl}/login`);

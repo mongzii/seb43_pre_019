@@ -1,4 +1,5 @@
 import { useState } from 'react';
+// import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Header from '../components/header/Header';
@@ -78,6 +79,10 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [login, setLogin] = useState(null);
 
+  // const [emailValid, setEmailValid] = useState(false);
+  // const [passwordValid, setPasswordValid] = useState(false);
+  // const [notAllow, setNotAllow] = useState(true);
+
   function onHandleName(e) {
     setName(e.target.value);
     // console.log(e.target.value);
@@ -86,12 +91,34 @@ function SignUp() {
   function onHandleEmail(e) {
     setEmail(e.target.value);
     // console.log(e.target.value);
+    // const regex =
+    //   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    // if (regex.test(email)) {
+    //   setEmailValid(true);
+    // } else {
+    //   setEmailValid(false);
+    // }
   }
 
   function onHandlePassword(e) {
     setPassword(e.target.value);
     // console.log(e.target.value);
+    // const regex =
+    //   /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)/-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    // if (regex.test(password)) {
+    //   setPasswordValid(true);
+    // } else {
+    //   setPasswordValid(false);
+    // }
   }
+  // useEffect(() => {
+  //   if (emailValid && passwordValid) {
+  //     setNotAllow(false);
+  //     return;
+  //   }
+  //   setNotAllow(true);
+  // }, [emailValid, passwordValid]);
+
   const SignupHandler = e => {
     e.preventDefault();
     // console.log(e.type);
