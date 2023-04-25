@@ -21,7 +21,8 @@ function MarkDown({ editorRef }) {
       placeholder="내용을 입력해주세요."
       initialValue=" "
       previewStyle="tab" // 미리보기 스타일 지정
-      height="300px" // 에디터 창 높이
+      height="250px" // 에디터 창 높이
+      width="100%"
       toolbarItems={[
         // 툴바 옵션 설정
         ['heading', 'bold', 'italic', 'strike'],

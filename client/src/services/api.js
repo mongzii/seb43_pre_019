@@ -28,7 +28,7 @@ export const axiosCreateAnswer = (url, data, id) => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      // 'ngrok-skip-browser-warning': '임의의 값',
+      'ngrok-skip-browser-warning': '69420',
     },
     data: JSON.stringify(data),
   })
@@ -46,6 +46,18 @@ export const axiosDelete = url => {
   })
     .then(() => {
       window.location.href = QUESTIONS_URL;
+    })
+    .catch(error => {
+      console.error('Error', error);
+    });
+};
+
+export const axiosDeleteAnswer = (url, id) => {
+  axios(url, {
+    method: 'DELETE',
+  })
+    .then(() => {
+      window.location.href = `${QUESTIONS_URL}${id}`;
     })
     .catch(error => {
       console.error('Error', error);
