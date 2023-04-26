@@ -76,7 +76,7 @@ const Styledinfo = styled.div`
 `;
 
 function SignUp() {
-  const [name, setName] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [login, setLogin] = useState(null);
@@ -88,7 +88,7 @@ function SignUp() {
   const [notAllow, setNotAllow] = useState(true);
 
   function onHandleName(e) {
-    setName(e.target.value);
+    setDisplayName(e.target.value);
     // console.log(e.target.value);
   }
 
@@ -103,10 +103,10 @@ function SignUp() {
       setEmailValid(false);
     }
   }
-  // 여기해야할차례임
+
   function onHandlePassword(e) {
     setPassword(e.target.value);
-    console.log(e.target.value);
+    // console.log(e.target.value);
     const regex =
       /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)/-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
     if (regex.test(password)) {
@@ -118,8 +118,14 @@ function SignUp() {
 
   const SignupHandler = e => {
     e.preventDefault();
+    const newdata = {
+      email,
+      displayName,
+      password,
+    };
     axios
-      .post(`${process.env.REACT_APP_DEV_URL}/sign`, { name, email, password })
+      // .post(`${process.env.REACT_APP_DEV_URL}/sign`, { displayName, email, password })
+      .post(`/api/members/sign`, newdata)
       .then(res => {
         console.log(res.data);
         navigate('/login');
@@ -189,7 +195,7 @@ function SignUp() {
           <button>Sign up with Facebook</button>
           <Styledinfo>
             <span>Display name</span>
-            <input value={name} onChange={onHandleName} />
+            <input value={displayName} onChange={onHandleName} />
             <span>Email</span>
             <input value={email} onChange={onHandleEmail} />
             <div className="errormsg">

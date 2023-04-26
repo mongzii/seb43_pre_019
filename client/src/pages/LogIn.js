@@ -93,7 +93,7 @@ const Styledloginbox = styled.body`
 function LogIn() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
@@ -112,30 +112,68 @@ function LogIn() {
   // const [checkedKeepLogin, setCheckedKeepLogin] = useState(false);
 
   function onEmailHandler(e) {
-    setEmail(e.target.value);
+    setUsername(e.target.value);
     // console.log(e.target.value);
   }
   function onPasswordHandler(e) {
     setPassword(e.target.value);
   }
-  // 0426 1148am
+
   const onSubmitHandler = e => {
     e.preventDefault();
+    const userData = {
+      username,
+      password,
+    };
+
     axios
-      .post(`${process.env.REACT_APP_DEV_URL}/login`, { email, password })
+      .post(`/api/members/login`, userData)
       .then(res => {
-        console.log(res.data);
-        // console.log(res.status);
-        navigate('/');
-        setUserInfo(res.data);
-        setIsLogin(true);
-        // 헤드바 바뀌는거추가해야함.
+        console.log(res);
+        // localStorage.setItem('accessToken', res.data);
+        // navigate('/');
       })
-      .catch(err => {
-        console.log(err.response.data);
-        alert('다시해');
-      });
+      .catch(err => console.log(err));
+    // alert('다시해');
   };
+
+  //   axios
+  //     .post(`localhost:8081/members`, userData)
+  //     .then(res => {
+  //       console.log(res);
+  //       // localStorage.setItem('accessToken', res.data);
+  //       navigate('/');
+  //     })
+  //     .catch(err => console.log(err));
+  //   // alert('다시해');
+  // };
+  // axios
+  //   .post(
+  //     `localhost:8081/login`,
+  //     { username, password },
+  //     { withCredentials: true },
+  //   )
+  //   .then(res => res.json())
+  //   .then(res => {
+  //     localStorage.setItem('accessToken', res.data);
+  //   })
+  //   .catch(err => {
+  //     console.log(err.response.data);
+  //     alert('다시해');
+  //   });
+  // .then(res => {
+  //   console.log(res.data);
+  //   // console.log(res.status);
+  //   navigate('/');
+  //   setUserInfo(res.data);
+  //   setIsLogin(true);
+  //   // 헤드바 바뀌는거추가해야함.
+  // })
+  // .catch(err => {
+  //   console.log(err.response.data);
+  //   alert('다시해');
+  // });
+  // };
   // const onSubmitHandler = () => {
   //   fetch(`${process.env.REACT_APP_DEV_URL}/login`, {
   //     method: 'POST',
