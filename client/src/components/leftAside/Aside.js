@@ -33,6 +33,26 @@ const StyledButton = styled.button`
   text-align: left;
 
   &:active {
+    padding: 10px 10px 10px 35px;
+    background-color: #f1f2f3;
+    font-weight: bold;
+    /* margin: 0px; */
+    border-right: 3px solid #f48024;
+  }
+`;
+
+const StyledQButton = styled.button`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: none;
+  padding: 10px;
+  background-color: white;
+  color: #525960;
+  text-align: left;
+
+  &:active {
     padding: 10px;
     background-color: #f1f2f3;
     font-weight: bold;
@@ -71,9 +91,9 @@ function Aside() {
           <p>Home</p>
         </ItemList> */}
         <ItemList title="PUBLIC">
-          <StyledButton>
+          <StyledQButton>
             <Earth className="earth_icon" /> Questions
-          </StyledButton>
+          </StyledQButton>
           {menus.map(menu => (
             <StyledButton className="pl">{menu}</StyledButton>
           ))}
