@@ -115,7 +115,7 @@ function SignUp() {
       setPasswordValid(false);
     }
   }
-
+  // .post(`${process.env.REACT_APP_DEV_URL}/sign`, newdata)
   const SignupHandler = e => {
     e.preventDefault();
     const newdata = {
@@ -124,8 +124,8 @@ function SignUp() {
       password,
     };
     axios
-      .post(`${process.env.REACT_APP_DEV_URL}/sign`, newdata)
-      // .post(`/api/members/sign`, newdata)
+
+      .post(`/api/members/sign`, newdata)
       .then(res => {
         console.log(res.data);
         navigate('/login');
@@ -136,13 +136,13 @@ function SignUp() {
       });
   };
 
-  useEffect(() => {
-    if (emailValid && passwordValid) {
-      setNotAllow(false);
-      return;
-    }
-    setNotAllow(true);
-  }, [emailValid, passwordValid]);
+  // useEffect(() => {
+  //   if (emailValid && passwordValid) {
+  //     setNotAllow(false);
+  //     return;
+  //   }
+  //   setNotAllow(true);
+  // }, [emailValid, passwordValid]);
 
   // const SignupHandler = e => {
   //   e.preventDefault();
