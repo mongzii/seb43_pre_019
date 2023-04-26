@@ -1,7 +1,7 @@
-import { useState } from 'react';
+// import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import axios from 'axios';
 import styled from 'styled-components';
 import Header from '../components/header/Header';
@@ -83,9 +83,9 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  // const [emailValid, setEmailValid] = useState(false);
-  // const [passwordValid, setPasswordValid] = useState(false);
-  // const [notAllow, setNotAllow] = useState(true);
+  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [notAllow, setNotAllow] = useState(true);
 
   function onHandleName(e) {
     setName(e.target.value);
@@ -95,33 +95,27 @@ function SignUp() {
   function onHandleEmail(e) {
     setEmail(e.target.value);
     // console.log(e.target.value);
-    // const regex =
-    //   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    // if (regex.test(email)) {
-    //   setEmailValid(true);
-    // } else {
-    //   setEmailValid(false);
-    // }
+    const regex =
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    if (regex.test(email)) {
+      setEmailValid(true);
+    } else {
+      setEmailValid(false);
+    }
   }
-
+  // 여기해야할차례임
   function onHandlePassword(e) {
     setPassword(e.target.value);
-    // console.log(e.target.value);
-    // const regex =
-    //   /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)/-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-    // if (regex.test(password)) {
-    //   setPasswordValid(true);
-    // } else {
-    //   setPasswordValid(false);
-    // }
+    console.log(e.target.value);
+    const regex =
+      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)/-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    if (regex.test(password)) {
+      setPasswordValid(true);
+    } else {
+      setPasswordValid(false);
+    }
   }
-  // useEffect(() => {
-  //   if (emailValid && passwordValid) {
-  //     setNotAllow(false);
-  //     return;
-  //   }
-  //   setNotAllow(true);
-  // }, [emailValid, passwordValid]);
+
   const SignupHandler = e => {
     e.preventDefault();
     axios
@@ -135,6 +129,14 @@ function SignUp() {
         alert('가입에 실패했습니다.');
       });
   };
+
+  useEffect(() => {
+    if (emailValid && passwordValid) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [emailValid, passwordValid]);
 
   // const SignupHandler = e => {
   //   e.preventDefault();
@@ -157,9 +159,9 @@ function SignUp() {
 
   // useSelector써서 store에 있는 함수를 가져와서 쓴다.
   // store에 있는 모든 state를 가져오게된거다.
-  const State = useSelector(state => {
-    return state;
-  });
+  // const State = useSelector(state => {
+  //   return state;
+  // });
   // console.log(State);
   // console.log(State.emailwrite);
   // console.log(State.info[1]);
@@ -190,6 +192,9 @@ function SignUp() {
             <input value={name} onChange={onHandleName} />
             <span>Email</span>
             <input value={email} onChange={onHandleEmail} />
+            <div className="errormsg">
+              {!emailValid && <div>유효한이메일이아닙니다</div>}
+            </div>
             <span>Password</span>
             <input value={password} type="password" onChange={onHandlePassword} />
             <p>Passwords must contain at least eight characters,</p>

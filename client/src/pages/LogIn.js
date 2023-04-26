@@ -118,8 +118,8 @@ function LogIn() {
   function onPasswordHandler(e) {
     setPassword(e.target.value);
   }
+  // 0426 1148am
   const onSubmitHandler = e => {
-    // 0426 12:17am
     e.preventDefault();
     axios
       .post(`${process.env.REACT_APP_DEV_URL}/login`, { email, password })
