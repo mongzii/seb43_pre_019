@@ -148,7 +148,7 @@ const QUser = styled.div`
 
 function MainSection() {
   const devUrl = process.env.REACT_APP_DEV_URL;
-  const { questions } = useAxios(`${devUrl}/questions`);
+  const { questions } = useAxios(`/api/questions`);
   return (
     <InnerContainer>
       <TopFirst>

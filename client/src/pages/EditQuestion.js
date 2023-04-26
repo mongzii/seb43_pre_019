@@ -122,7 +122,7 @@ const BlueButton = styled.button`
 function EditQuestion() {
   const devUrl = process.env.REACT_APP_DEV_URL;
   const { id } = useParams();
-  const { questions } = useAxios(`${devUrl}/questions/${id}`);
+  const { questions } = useAxios(`/api/questions/${id}`);
   const [questionData, setQuestionData] = useState(null);
   const [content, setContent] = useState('');
   const editorRef = useRef();
@@ -163,7 +163,7 @@ function EditQuestion() {
       title: titleBind.curValue,
       body: value,
     };
-    axiosPatch(`${devUrl}/questions/${id}`, editedData, id);
+    axiosPatch(`/api/questions/${id}`, editedData, id);
   };
 
   return (

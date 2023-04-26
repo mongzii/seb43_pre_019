@@ -19,7 +19,7 @@ function App() {
         {/* <Route path="/" element={<Template />}> */}
         <Route path="/" element={<Home />} />
         <Route path="/mypages" element={<MyPages />} />
-        <Route path="/questions/:id" element={<Question />} />
+        {/* <Route path="/questions/:id" element={<Question />} /> */}
         {/* </Route> */}
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
