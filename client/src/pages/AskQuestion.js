@@ -153,7 +153,7 @@ function AskQuestion() {
       body: `${bodyValue}\n${detailsValue}`,
       details: detailsValue,
     };
-    axiosCreate(`${devUrl}/questions`, data);
+    axiosCreate(`/api/questions`, data);
   };
 
   return (

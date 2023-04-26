@@ -6,7 +6,7 @@ const useAxios = url => {
   const [answers, setAnswers] = useState([]);
   const [pageInfos, setPageInfos] = useState(null);
   const [error, setError] = useState(null);
-
+  console.log(url);
   useEffect(() => {
     axios(url, {
       method: 'GET',
@@ -17,7 +17,6 @@ const useAxios = url => {
       },
     })
       .then(response => {
-        // console.log(response.data);
         setQuestions(response.data);
         setAnswers(response.data.answers);
         setPageInfos(response.data.pageInfos);

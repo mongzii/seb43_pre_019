@@ -4,7 +4,6 @@ const BASE_URL = 'http://localhost:3000/';
 const QUESTIONS_URL = 'http://localhost:3000/questions/';
 
 export const axiosCreate = (url, data) => {
-  console.log(data);
   axios(url, {
     method: 'POST',
     headers: {
@@ -13,6 +12,8 @@ export const axiosCreate = (url, data) => {
       'ngrok-skip-browser-warning': '69420',
       // 유저의 토큰 값
       // 주석ㅁㄴㅇㅁㄴㅇ
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoic29vbWFuMzM0QGdtYWlsLmNvbSIsInN1YiI6InNvb21hbjMzNEBnbWFpbC5jb20iLCJpYXQiOjE2ODI0ODg0MzUsImV4cCI6MTY4MjQ5MDIzNX0.Mpp44hYYcY3o3ESAW1GYwXBJIcuMmVAp3mp8-FT9ybs',
     },
     data: JSON.stringify(data),
   })
@@ -31,6 +32,8 @@ export const axiosCreateAnswer = (url, data, id) => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       'ngrok-skip-browser-warning': '69420',
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoic29vbWFuMzM0QGdtYWlsLmNvbSIsInN1YiI6InNvb21hbjMzNEBnbWFpbC5jb20iLCJpYXQiOjE2ODI0ODg0MzUsImV4cCI6MTY4MjQ5MDIzNX0.Mpp44hYYcY3o3ESAW1GYwXBJIcuMmVAp3mp8-FT9ybs',
     },
     data: JSON.stringify(data),
   })
@@ -45,6 +48,10 @@ export const axiosCreateAnswer = (url, data, id) => {
 export const axiosDelete = url => {
   axios(url, {
     method: 'DELETE',
+    headers: {
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoic29vbWFuMzM0QGdtYWlsLmNvbSIsInN1YiI6InNvb21hbjMzNEBnbWFpbC5jb20iLCJpYXQiOjE2ODI0ODg0MzUsImV4cCI6MTY4MjQ5MDIzNX0.Mpp44hYYcY3o3ESAW1GYwXBJIcuMmVAp3mp8-FT9ybs',
+    },
   })
     .then(() => {
       window.location.href = QUESTIONS_URL;
@@ -57,6 +64,10 @@ export const axiosDelete = url => {
 export const axiosDeleteAnswer = (url, id) => {
   axios(url, {
     method: 'DELETE',
+    headers: {
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoic29vbWFuMzM0QGdtYWlsLmNvbSIsInN1YiI6InNvb21hbjMzNEBnbWFpbC5jb20iLCJpYXQiOjE2ODI0ODg0MzUsImV4cCI6MTY4MjQ5MDIzNX0.Mpp44hYYcY3o3ESAW1GYwXBJIcuMmVAp3mp8-FT9ybs',
+    },
   })
     .then(() => {
       window.location.href = `${QUESTIONS_URL}${id}`;
@@ -69,6 +80,10 @@ export const axiosDeleteAnswer = (url, id) => {
 export const axiosDeleteComment = (url, id) => {
   axios(url, {
     method: 'DELETE',
+    headers: {
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoic29vbWFuMzM0QGdtYWlsLmNvbSIsInN1YiI6InNvb21hbjMzNEBnbWFpbC5jb20iLCJpYXQiOjE2ODI0ODg0MzUsImV4cCI6MTY4MjQ5MDIzNX0.Mpp44hYYcY3o3ESAW1GYwXBJIcuMmVAp3mp8-FT9ybs',
+    },
   })
     .then(() => {
       window.location.href = `${QUESTIONS_URL}${id}`;
@@ -85,6 +100,9 @@ export const axiosPatch = (url, data, id) => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       'ngrok-skip-browser-warning': '69420',
+
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoic29vbWFuMzM0QGdtYWlsLmNvbSIsInN1YiI6InNvb21hbjMzNEBnbWFpbC5jb20iLCJpYXQiOjE2ODI0ODg0MzUsImV4cCI6MTY4MjQ5MDIzNX0.Mpp44hYYcY3o3ESAW1GYwXBJIcuMmVAp3mp8-FT9ybs',
     },
     data: JSON.stringify(data),
   })
