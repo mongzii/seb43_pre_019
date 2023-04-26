@@ -16,20 +16,18 @@ import EditQuestion from './pages/EditQuestion';
 
 function App() {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/questions" element={<Questions />} />
-          <Route path="/questions/:id" element={<Question />} />
-          <Route path="/questions/ask" element={<AskQuestion />} />
-          <Route path="/questions/:id/edit" element={<EditQuestion />} />
-          <Route path="/mypages" element={<MyPages />} />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/mypages" element={<MyPages />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/questions" element={<Questions />} />
+        <Route path="/questions/ask" element={<AskQuestion />} />
+        <Route path="/questions/:id" element={<Question />} />
+        <Route path="/questions/:id/edit" element={<EditQuestion />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
