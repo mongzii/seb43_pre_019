@@ -11,6 +11,8 @@ export const axiosCreate = (url, data) => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       'ngrok-skip-browser-warning': '69420',
+      // 유저의 토큰 값
+      // 주석ㅁㄴㅇㅁㄴㅇ
     },
     data: JSON.stringify(data),
   })
