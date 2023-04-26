@@ -64,12 +64,25 @@ export const axiosDeleteAnswer = (url, id) => {
     });
 };
 
+export const axiosDeleteComment = (url, id) => {
+  axios(url, {
+    method: 'DELETE',
+  })
+    .then(() => {
+      window.location.href = `${QUESTIONS_URL}${id}`;
+    })
+    .catch(error => {
+      console.error('Error', error);
+    });
+};
+
 export const axiosPatch = (url, data, id) => {
   axios(url, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      'ngrok-skip-browser-warning': '69420',
     },
     data: JSON.stringify(data),
   })

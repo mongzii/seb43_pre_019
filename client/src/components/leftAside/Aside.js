@@ -44,6 +44,11 @@ const StyledButton = styled.button`
       }
     }
   }
+
+  :hover {
+    color: black;
+    fill: black;
+  }
 `;
 
 const SideInnerBox = styled.div`

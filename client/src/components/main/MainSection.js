@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Questions from './Questions';
 import useAxios from '../../services/useAxios';
-import MarkdownViewer from '../MarkDownViewer';
+import MarkdownViewer from '../feat/MarkDownViewer';
 
 const InnerContainer = styled.div`
   /* position: fixed; */
@@ -64,6 +63,9 @@ const ButtonList = styled.div`
     :active {
       background-color: #e3e6e8;
     }
+  }
+  button:hover {
+    background-color: hsl(210, 8%, 95%);
   }
   .filter {
     margin: 13px;
@@ -146,7 +148,7 @@ const QUser = styled.div`
 
 function MainSection() {
   const devUrl = process.env.REACT_APP_DEV_URL;
-  const [questions] = useAxios(`${devUrl}/questions`);
+  const { questions } = useAxios(`${devUrl}/questions`);
   return (
     <InnerContainer>
       <TopFirst>

@@ -6,7 +6,7 @@ import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/d
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
-function MarkDown({ editorRef }) {
+function MarkDown({ editorRef, preText }) {
   // preview="edit" 는 미리보기가 없는 모드!
   // MdEditor
   return (
@@ -19,7 +19,7 @@ function MarkDown({ editorRef }) {
       ref={editorRef}
       plugins={[codeSyntaxHighlight]}
       placeholder="내용을 입력해주세요."
-      initialValue=" "
+      initialValue={preText || ' '}
       previewStyle="tab" // 미리보기 스타일 지정
       height="250px" // 에디터 창 높이
       width="100%"
