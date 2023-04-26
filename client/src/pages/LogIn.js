@@ -95,7 +95,15 @@ function LogIn() {
   const [userInfo, setUserInfo] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // const createToken = async (id, pw)=> {
+  //   const res = await fetch (),{
+  //   method: 'post',
+  //   headers: { 'Content-Type': 'application/json' },
+  // body: JSON.stringify({username: id, password: pw})
+  // }
 
+  //   }
+  // }
   const navigate = useNavigate();
   // const [name, setName] = useState('');
   // const [login, setLogin] = useState([]);
@@ -118,19 +126,34 @@ function LogIn() {
   function onPasswordHandler(e) {
     setPassword(e.target.value);
   }
-  // 0426 1148am
+  // const createToken(username, password) {}
+
   const onSubmitHandler = e => {
     e.preventDefault();
     axios
-      .post(`${process.env.REACT_APP_DEV_URL}/login`, { email, password })
+      .post(
+        `${process.env.REACT_APP_DEV_URL}/login`,
+        { email, password },
+        { withCredentials: true },
+      )
+      .then(res => res.json())
       .then(res => {
-        console.log(res.data);
-        // console.log(res.status);
-        navigate('/');
-        setUserInfo(res.data);
-        setIsLogin(true);
-        // 헤드바 바뀌는거추가해야함.
+        localStorage.setItem('accessToken', res.data);
       })
+      // .then(response => {
+      //   axios.defaults.headers.common[
+      //     'Authorization'
+      //   ] = `Bearer ${response.data.aceess_token}`;
+      //   return response.data;
+      //   // console.log(res.status);
+      // })
+      // .then(response => {
+      //   console.log(response.data);
+      //   navigate('/');
+      //   setUserInfo(response.data);
+      //   setIsLogin(true);
+      //   // 헤드바 바뀌는거추가해야함.
+      // })
       .catch(err => {
         console.log(err.response.data);
         alert('다시해');
