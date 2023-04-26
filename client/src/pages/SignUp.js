@@ -1,4 +1,11 @@
+// import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
+import axios from 'axios';
 import styled from 'styled-components';
+import Header from '../components/header/Header';
+
 const Styledbody = styled.div`
   display: flex;
   justify-content: center;
@@ -15,7 +22,6 @@ const Styledmain = styled.div`
     margin: 5px;
   }
 `;
-// 230421 18:51
 
 const Styledsub = styled.div`
   border: 3px solid black;
@@ -23,13 +29,13 @@ const Styledsub = styled.div`
   line-height: 50px;
 `;
 
-const Styledarticle = styled.div`
-  font-size: 2rem;
-`;
+// const Styledarticle = styled.div`
+//   font-size: 2rem;
+// `;
 
-const StyledBts = styled.div`
-  border: 3px solid blue;
-`;
+// const StyledBts = styled.div`
+//   border: 3px solid blue;
+// `;
 
 const Styledinfo = styled.div`
   border: 3px solid black;
@@ -69,30 +75,102 @@ const Styledinfo = styled.div`
   }
 `;
 
-const GoogleButton = styled.button`
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 5px;
-  height: 40px;
-`;
-const GithubButton = styled.button`
-  background-color: #2f3337;
-  color: white;
-  border: white;
-  border-radius: 5px;
-  height: 40px;
-`;
-const FacebookButton = styled.button`
-  background-color: #385499;
-  color: white;
-  border: white;
-  border-radius: 5px;
-  height: 40px;
-`;
-
 function SignUp() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [login, setLogin] = useState(null);
+
+  const navigate = useNavigate();
+
+  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [notAllow, setNotAllow] = useState(true);
+
+  function onHandleName(e) {
+    setName(e.target.value);
+    // console.log(e.target.value);
+  }
+
+  function onHandleEmail(e) {
+    setEmail(e.target.value);
+    // console.log(e.target.value);
+    const regex =
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    if (regex.test(email)) {
+      setEmailValid(true);
+    } else {
+      setEmailValid(false);
+    }
+  }
+  // 여기해야할차례임
+  function onHandlePassword(e) {
+    setPassword(e.target.value);
+    console.log(e.target.value);
+    const regex =
+      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)/-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    if (regex.test(password)) {
+      setPasswordValid(true);
+    } else {
+      setPasswordValid(false);
+    }
+  }
+
+  const SignupHandler = e => {
+    e.preventDefault();
+    axios
+      .post(`${process.env.REACT_APP_DEV_URL}/sign`, { name, email, password })
+      .then(res => {
+        console.log(res.data);
+        navigate('/login');
+      })
+      .catch(err => {
+        console.log(err.response.data);
+        alert('가입에 실패했습니다.');
+      });
+  };
+
+  useEffect(() => {
+    if (emailValid && passwordValid) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [emailValid, passwordValid]);
+
+  // const SignupHandler = e => {
+  //   e.preventDefault();
+  //   // console.log(e.type);
+  //   // console.log(email);
+  //   // console.log(name);
+  //   fetch(`http://localhost:8081/sign`, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({
+  //       name,
+  //       email,
+  //       password,
+  //     }),
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => console.log(data));
+  //   // .then(data => setLogin(data));
+  // };
+
+  // useSelector써서 store에 있는 함수를 가져와서 쓴다.
+  // store에 있는 모든 state를 가져오게된거다.
+  // const State = useSelector(state => {
+  //   return state;
+  // });
+  // console.log(State);
+  // console.log(State.emailwrite);
+  // console.log(State.info[1]);
+  // console.log(State.info[1].pwpart);
+  // 0424 2:16am
+
   return (
     <>
+      <Header />
       <Styledbody>
         <Styledsub>
           <p>Join the Stack Overflow community</p>
@@ -111,18 +189,21 @@ function SignUp() {
           <button>Sign up with Facebook</button>
           <Styledinfo>
             <span>Display name</span>
-            <input />
+            <input value={name} onChange={onHandleName} />
             <span>Email</span>
-            <input />
+            <input value={email} onChange={onHandleEmail} />
+            <div className="errormsg">
+              {!emailValid && <div>유효한이메일이아닙니다</div>}
+            </div>
             <span>Password</span>
-            <input />
+            <input value={password} type="password" onChange={onHandlePassword} />
             <p>Passwords must contain at least eight characters,</p>
             <p>including at least 1 letter and 1 number.</p>
             <p>Opt-in to receive occasional product</p>
             <p>updates, user research invitations, company</p>
             <p>announcements, and digests.</p>
-            <button>Sign up</button>
-            <p>By clicking "Sign up", you agree to our terms of</p>
+            <button onClick={SignupHandler}>Sign up</button>
+            <p>By clicking Sign up, you agree to our terms of</p>
             <p>service, privacy policy and cookie policy</p>
           </Styledinfo>
         </Styledmain>

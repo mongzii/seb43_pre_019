@@ -32,7 +32,7 @@ const InnerContainer = styled.div`
 `;
 
 function Header() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const buttons = isLogin ? <LoginButtons /> : <LogoutButtons />;
   const navitems = isLogin ? <LoginNav /> : <LogoutNav />;
