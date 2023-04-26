@@ -124,8 +124,8 @@ function SignUp() {
       password,
     };
     axios
-      // .post(`${process.env.REACT_APP_DEV_URL}/sign`, { displayName, email, password })
-      .post(`/api/members/sign`, newdata)
+      .post(`${process.env.REACT_APP_DEV_URL}/sign`, newdata)
+      // .post(`/api/members/sign`, newdata)
       .then(res => {
         console.log(res.data);
         navigate('/login');

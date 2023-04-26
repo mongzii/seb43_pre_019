@@ -125,16 +125,23 @@ function LogIn() {
       username,
       password,
     };
-
+    // 0426 23:18pm
     axios
-      .post(`/api/members/login`, userData)
+      .post(`http://localhost:8081/login`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+        userData,
+      })
+      // .post(`/api/members/login`, userData)
       .then(res => {
         console.log(res);
-        // localStorage.setItem('accessToken', res.data);
-        // navigate('/');
+        // console.log(res.headers);
+        // console.log(res.headers.authorization); //여기에 토큰값이 들어있다.
+        localStorage.setItem('accessToken', res.data);
+        navigate('/');
       })
       .catch(err => console.log(err));
-    // alert('다시해');
   };
 
   //   axios
