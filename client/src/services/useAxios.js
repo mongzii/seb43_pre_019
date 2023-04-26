@@ -25,7 +25,7 @@ const useAxios = url => {
       .catch(err => setError(err.message));
   }, [url]);
 
-  return [questions, setQuestions, answers, setAnswers, pageInfos, error];
+  return { questions, setQuestions, answers, setAnswers, pageInfos, error };
 };
 
 export default useAxios;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import useInput from '../services/useInput';
 import { axiosCreate } from '../services/api';
-import { Input, MarkDown } from '../components/Input';
+import { Input, MarkDown } from '../components/feat/Input';
 
 const StyledInputForm = styled.form`
   background-color: hsl(0, 0%, 100%);
@@ -153,7 +153,6 @@ function AskQuestion() {
       body: `${bodyValue}\n${detailsValue}`,
       details: detailsValue,
     };
-    console.log(data);
     axiosCreate(`${devUrl}/questions`, data);
   };
 

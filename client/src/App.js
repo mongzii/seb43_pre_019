@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp';
 import Questions from './pages/Questions';
 import Question from './pages/Question';
 import AskQuestion from './pages/AskQuestion';
+import MyPages from './pages/MyPages';
 import EditQuestion from './pages/EditQuestion';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/questions/ask" element={<AskQuestion />} />
+        <Route path="/mypages" element={<MyPages />} />
         <Route path="/questions/:id" element={<Question />} />
         <Route path="/questions/:id/edit" element={<EditQuestion />} />
       </Routes>
