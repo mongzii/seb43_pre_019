@@ -243,6 +243,21 @@ const CmtEdit = styled.div`
   }
 `;
 const CommentsList = styled.ul``;
+
+const CommentFormContainer = styled.div`
+  display: flex;
+  margin-top: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+`;
+
+const CommentEditFormContainer = styled.div`
+  display: flex;
+  margin-top: 8px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+`;
+
 const CommentInputContainer = styled.div`
   textarea {
     width: 75%;
@@ -254,6 +269,18 @@ const CommentInputContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
+const CommentEditContainer = styled.div`
+  width: 75%;
+  textarea {
+    width: 100%;
+    height: 100px;
+  }
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
 const AddCommentInput = styled.div``;
 
 const AddCommentMessage = styled.div`
@@ -284,13 +311,12 @@ const HelpButton = styled.div`
 
 const AddCommentButton = styled.button``;
 const AddCommentForm = styled.form`
+  width: 100%;
   margin-bottom: 20px;
 `;
-const CommentFormContainer = styled.div`
-  display: flex;
-  margin-top: 8px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+const EditCommentForm = styled.form`
+  width: 100%;
+  margin-bottom: 20px;
 `;
 const AddComment = styled.div``;
 const CommentLinkContainer = styled.div`
@@ -370,7 +396,7 @@ function Question() {
   };
 
   // edit answer
-  const [editedAnswerContent, setEditedAnswerContent] = useState('');
+
   const [isEditingAnswer, setIsEditingAnswer] = useState(false);
   const [editingAnswerId, setEditingAnswerId] = useState('');
   const [preText, setPreText] = useState('');
@@ -393,6 +419,12 @@ function Question() {
       content: answerValue,
     };
     axiosPatch(`/api/questions/${id}/answers/${answer.id}`, editedAnswer, id);
+    setIsEditingAnswer(false);
+    setEditingAnswerId('');
+    setPreText('');
+  };
+
+  const handleCancelEditAnswer = () => {
     setIsEditingAnswer(false);
     setEditingAnswerId('');
     setPreText('');
@@ -430,6 +462,7 @@ function Question() {
   const [commentInput, setCommentInput] = useState('');
   const [isCreatingComment, setIsCreatingComment] = useState(false);
   const [isEditingComment, setIsEditingComment] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState('');
   const [cmtAnswerId, setCmtAnswerID] = useState('');
 
   const handleOpenCommentInput = answerId => {
@@ -438,10 +471,31 @@ function Question() {
     setCmtAnswerID(answerId);
   };
 
-  const handleOpenCommentEditor = commentId => {};
+  const handleOpenCommentEditor = comment => {
+    setIsEditingComment(true);
+    setEditingCommentId(comment.id);
+    setCommentInput(comment.text);
+  };
 
   const handleComment = e => {
     setCommentInput(e.target.value);
+  };
+
+  const handleEditComment = (answerId, commentId) => {
+    console.log('link test');
+    const editedComment = {
+      text: commentInput,
+    };
+    axiosPatch(`/api/answers/${answerId}/comments/${commentId}`, editedComment, id);
+    setIsEditingComment(false);
+    setEditingCommentId('');
+    setCommentInput('');
+  };
+
+  const handleCancelEditComment = () => {
+    setIsEditingComment(false);
+    setEditingCommentId('');
+    setCommentInput('');
   };
 
   const handleAddComment = answerId => {
@@ -551,11 +605,7 @@ function Question() {
                                 />
                                 <div className="form-submit">
                                   <BlueButton type="submit">Edit Your Answer</BlueButton>
-                                  <CancelButton
-                                    onClick={() => {
-                                      setIsEditingAnswer(false);
-                                    }}
-                                  >
+                                  <CancelButton onClick={handleCancelEditAnswer}>
                                     cancel
                                   </CancelButton>
                                 </div>
@@ -606,28 +656,77 @@ function Question() {
                               {answer.comments.map(comment => {
                                 return (
                                   <CmtListItem key={comment.id}>
-                                    <CmtAction>
-                                      <CmtScore>
-                                        <span>124</span>
-                                      </CmtScore>
-                                    </CmtAction>
-                                    <CmtText>
-                                      <CmtBody>
-                                        <CmtCopy>{comment.text}</CmtCopy>
-                                        <CmtUser>hajongon</CmtUser>
-                                        <CmtDate>May 11, 2023 at 12:45</CmtDate>
-                                        <CmtEdit>
-                                          <Pencil />
-                                          <CancelButton
-                                            onClick={() => {
-                                              handleDeleteComment(answer.id, comment.id);
-                                            }}
-                                          >
-                                            delete
-                                          </CancelButton>
-                                        </CmtEdit>
-                                      </CmtBody>
-                                    </CmtText>
+                                    {!(
+                                      isEditingComment && editingCommentId === comment.id
+                                    ) ? (
+                                      <>
+                                        <CmtAction>
+                                          <CmtScore>
+                                            <span>124</span>
+                                          </CmtScore>
+                                        </CmtAction>
+                                        <CmtText>
+                                          <CmtBody>
+                                            <CmtCopy>{comment.text}</CmtCopy>
+                                            <CmtUser>hajongon</CmtUser>
+                                            <CmtDate>May 11, 2023 at 12:45</CmtDate>
+                                            <CmtEdit>
+                                              <Pencil
+                                                onClick={() => {
+                                                  handleOpenCommentEditor(comment);
+                                                }}
+                                              />
+                                              <CancelButton
+                                                onClick={() => {
+                                                  handleDeleteComment(
+                                                    answer.id,
+                                                    comment.id,
+                                                  );
+                                                }}
+                                              >
+                                                delete
+                                              </CancelButton>
+                                            </CmtEdit>
+                                          </CmtBody>
+                                        </CmtText>
+                                      </>
+                                    ) : (
+                                      <EditCommentForm
+                                        onSubmit={() =>
+                                          handleEditComment(answer.id, comment.id)
+                                        }
+                                      >
+                                        <CommentEditFormContainer>
+                                          <CommentEditContainer>
+                                            <AddCommentInput>
+                                              <textarea
+                                                value={commentInput}
+                                                onChange={handleComment}
+                                              />
+                                            </AddCommentInput>
+                                            <AddCommentMessage>
+                                              Enter at least 15 characters
+                                            </AddCommentMessage>
+                                          </CommentEditContainer>
+                                          <AddComment>
+                                            <CommentButtonContainer>
+                                              <AddButtonWrap>
+                                                <BlueButton type="submit">
+                                                  Edit comment
+                                                </BlueButton>
+                                              </AddButtonWrap>
+                                              <HelpButtonWrap>
+                                                <HelpButton
+                                                  onClick={handleCancelEditComment}
+                                                >
+                                                  Cancel
+                                                </HelpButton>
+                                              </HelpButtonWrap>
+                                            </CommentButtonContainer>
+                                          </AddComment>
+                                        </CommentEditFormContainer>
+                                      </EditCommentForm>
+                                    )}
                                   </CmtListItem>
                                 );
                               })}
