@@ -10,17 +10,20 @@ import {
   axiosPatch,
   axiosCreateAnswer,
   axiosDeleteAnswer,
+  axiosDeleteComment,
 } from '../services/api';
 
-import { MarkDown } from '../components/Input';
+import { MarkDown } from '../components/feat/Input';
 import StyledInputForm from '../styles/StyledInputForm';
-import MarkdownViewer from '../components/MarkDownViewer';
+import MarkdownViewer from '../components/feat/MarkDownViewer';
 
 import DateWrap from '../components/question/DateWrap';
 import VoteCell from '../components/question/VoteCell';
 import AnswerSort from '../components/question/AnswerSort';
 import PostWriter from '../components/question/PostWriter';
 import AnswerWriter from '../components/question/AnswerWriter';
+
+import { ReactComponent as Pencil } from '../assets/ic-pencil.svg';
 
 const StyledQuestionContainer = styled.div`
   width: 850px;
@@ -41,7 +44,9 @@ const StyledQuestionContainer = styled.div`
   flex-direction: column;
 `;
 
-const StyledQuestion = styled.div``;
+const StyledQuestion = styled.div`
+  margin-bottom: 20px;
+`;
 const QuestionHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -53,6 +58,8 @@ const AnswerLayout = styled.div`
   display: grid;
   grid-template-columns: max-content 1fr;
   font-size: 14px;
+  border-bottom: 1px solid hsl(210, 8%, 95%);
+  margin-bottom: 20px;
 `;
 
 const PostLayout = styled.div`
@@ -165,7 +172,22 @@ const AnswersCount = styled.div`
 `;
 const AnswerBody = styled.div``;
 
+const EditingAnswer = styled.div``;
+const EditingAnswerInput = styled.div`
+  textarea {
+    width: 100%;
+    height: 200px;
+  }
+`;
+const EditingAnswerButtons = styled.div``;
+const CancelButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: #2587d2;
+`;
+
 const AnswersComments = styled.div``;
+
 const CommentsContainer = styled.div`
   margin-bottom: 16px;
 `;
@@ -209,20 +231,30 @@ const CmtUser = styled.a`
 const CmtDate = styled.div`
   display: inline-flex;
   color: hsl(210, 8%, 60%);
+  margin-right: 5px;
+`;
+
+const CmtEdit = styled.div`
+  display: inline-flex;
+  color: hsl(210, 8%, 60%);
+
+  svg {
+    fill: hsl(210, 8%, 100%);
+  }
 `;
 const CommentsList = styled.ul``;
 const CommentInputContainer = styled.div`
-  width: 75%;
+  textarea {
+    width: 75%;
+    height: 100px;
+  }
+
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
-const AddCommentInput = styled.div`
-  > textarea {
-    width: 100%;
-  }
-`;
+const AddCommentInput = styled.div``;
 
 const AddCommentMessage = styled.div`
   color: hsl(210, 8%, 60%);
@@ -286,7 +318,13 @@ const BlueButton = styled.button`
 function Question() {
   const devUrl = process.env.REACT_APP_DEV_URL;
   const { id } = useParams();
-  const [question, , answers, , pageInfos] = useAxios(`${devUrl}/questions/${id}`);
+  const { questions, answers, pageInfos } = useAxios(`${devUrl}/questions/${id}`);
+  const [question, setQuestion] = useState(null);
+
+  // undefined 방지
+  useEffect(() => {
+    setQuestion(questions);
+  }, [questions]);
 
   // page 별 answers 불러오기 위한 선언
   const [answersData, setAnswersData] = useState([]);
@@ -301,12 +339,20 @@ function Question() {
     setPageInfosData(pageInfos);
   }, [answers, pageInfos]);
 
-  console.log(answersData);
+  // delete question
   const handleDelete = () => {
+    // if (현재 유저의 userid와 question의 userid가 다르다) => return
     axiosDelete(`${devUrl}/questions/${id}`);
   };
 
+  // edit question
+  const handleEdit = () => {
+    // if (현재 유저의 userid와 question의 userid가 다르다) => return
+    navigate(`/questions/${id}/edit`);
+  };
+
   const editorAnswerRef = useRef();
+
   // add answer
   const handleAddAnswer = e => {
     e.preventDefault();
@@ -319,12 +365,37 @@ function Question() {
 
   // delete answer
   const handleDeleteAnswer = answerId => {
+    // if (현재 유저의 userid와 answer의 userid가 다르다) => return
     axiosDeleteAnswer(`${devUrl}/questions/${id}/answers/${answerId}`, id);
   };
 
-  // edit question
-  const handleEdit = () => {
-    navigate(`/questions/${id}/edit`);
+  // edit answer
+  const [editedAnswerContent, setEditedAnswerContent] = useState('');
+  const [isEditingAnswer, setIsEditingAnswer] = useState(false);
+  const [editingAnswerId, setEditingAnswerId] = useState('');
+  const [preText, setPreText] = useState('');
+
+  const editingAnswerRef = useRef();
+
+  const handleOpenAnswerEditor = answer => {
+    // if (현재 유저의 userid와 answer의 userid가 다르다) => return
+    setIsEditingAnswer(true);
+    setEditingAnswerId(answer.id);
+    // html 태그가 포함된 형태로 들어가지 않게 하기 위해 쏙 빼준다.
+    const plainText = document.createElement('div');
+    plainText.innerHTML = answer.content;
+    setPreText(plainText.innerText);
+  };
+
+  const handleEditAnswer = answer => {
+    const answerValue = editingAnswerRef.current?.getInstance().getHTML();
+    const editedAnswer = {
+      content: answerValue,
+    };
+    axiosPatch(`${devUrl}/questions/${id}/answers/${answer.id}`, editedAnswer, id);
+    setIsEditingAnswer(false);
+    setEditingAnswerId('');
+    setPreText('');
   };
 
   // move to other answers page
@@ -356,17 +427,30 @@ function Question() {
 
   const [commentInput, setCommentInput] = useState('');
   const [isCreatingComment, setIsCreatingComment] = useState(false);
+  const [cmtAnswerId, setCmtAnswerID] = useState('');
+
+  const handleOpenCommentInput = answerId => {
+    // if (현재 유저의 userid와 comment의 userid가 다르다) => return
+    setIsCreatingComment(true);
+    setCmtAnswerID(answerId);
+  };
 
   const handleComment = e => {
     setCommentInput(e.target.value);
   };
-  const handleAddComment = (e, answerId) => {
+
+  const handleAddComment = answerId => {
     const newComment = {
       text: commentInput,
     };
     // answerId만 있으면 상위 questionId까지 유추할 수 있음
     axiosCreateAnswer(`${devUrl}/answers/${answerId}/comments`, newComment, id);
     setIsCreatingComment(false);
+    setCmtAnswerID('');
+  };
+
+  const handleDeleteComment = (answerId, commentId) => {
+    axiosDeleteComment(`${devUrl}/answers/${answerId}/comments/${commentId}`, id);
   };
 
   const pageButtons = [];
@@ -439,45 +523,81 @@ function Question() {
             </AnswersSubHeader>
           </AnswersHeader>
           <div className="buttonContainer">{pageButtons}</div>
-
           {!answersData
             ? null
-            : answersData.map(el => {
+            : answersData.map(answer => {
                 return (
                   <ul>
-                    <li key={el.id}>
+                    <li key={answer.id}>
                       <AnswerLayout>
-                        <VoteCell />
-                        <PostCell>
-                          <AnswerBody>
-                            <MarkdownViewer content={el.content} />
-                          </AnswerBody>
-                          <PostFooter>
-                            <PostFooterWrap>
-                              <ButtonWrap>
-                                <button type="button">share</button>
-                                <button type="button">edit</button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleDeleteAnswer(el.id)}
-                                >
-                                  delete
-                                </button>
-                                <button type="button">flag</button>
-                              </ButtonWrap>
-                              <PostEditor>
-                                <span>edited</span>
-                                <span className="editedtime">Dec 23, 2021 at 20:30</span>
-                              </PostEditor>
-                              <AnswerWriter />
-                            </PostFooterWrap>
-                          </PostFooter>
-                        </PostCell>
+                        {isEditingAnswer && editingAnswerId === answer.id ? (
+                          <EditingAnswer>
+                            <EditingAnswerInput>
+                              <StyledInputForm
+                                onSubmit={() => {
+                                  handleEditAnswer(answer);
+                                }}
+                              >
+                                <h3>Your Answer</h3>
+                                <MarkDown
+                                  editorRef={editingAnswerRef}
+                                  preText={preText}
+                                />
+                                <div className="form-submit">
+                                  <BlueButton type="submit">Edit Your Answer</BlueButton>
+                                  <CancelButton
+                                    onClick={() => {
+                                      setIsEditingAnswer(false);
+                                    }}
+                                  >
+                                    cancel
+                                  </CancelButton>
+                                </div>
+                              </StyledInputForm>
+                            </EditingAnswerInput>
+                          </EditingAnswer>
+                        ) : (
+                          <>
+                            <VoteCell />
+                            <PostCell>
+                              <AnswerBody>
+                                <MarkdownViewer content={answer.content} />
+                              </AnswerBody>
+                              <PostFooter>
+                                <PostFooterWrap>
+                                  <ButtonWrap>
+                                    <button type="button">share</button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenAnswerEditor(answer)}
+                                    >
+                                      edit
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDeleteAnswer(answer.id)}
+                                    >
+                                      delete
+                                    </button>
+                                    <button type="button">flag</button>
+                                  </ButtonWrap>
+                                  <PostEditor>
+                                    <span>edited</span>
+                                    <span className="editedtime">
+                                      Dec 23, 2021 at 20:30
+                                    </span>
+                                  </PostEditor>
+                                  <AnswerWriter />
+                                </PostFooterWrap>
+                              </PostFooter>
+                            </PostCell>
+                          </>
+                        )}
                         <div className="dummy" />
                         <AnswersComments>
                           <CommentsContainer>
                             <CommentsList>
-                              {el.comments.map(comment => {
+                              {answer.comments.map(comment => {
                                 return (
                                   <CmtListItem key={comment.id}>
                                     <CmtAction>
@@ -490,6 +610,16 @@ function Question() {
                                         <CmtCopy>{comment.text}</CmtCopy>
                                         <CmtUser>hajongon</CmtUser>
                                         <CmtDate>May 11, 2023 at 12:45</CmtDate>
+                                        <CmtEdit>
+                                          <Pencil />
+                                          <CancelButton
+                                            onClick={() => {
+                                              handleDeleteComment(answer.id, comment.id);
+                                            }}
+                                          >
+                                            delete
+                                          </CancelButton>
+                                        </CmtEdit>
                                       </CmtBody>
                                     </CmtText>
                                   </CmtListItem>
@@ -497,8 +627,8 @@ function Question() {
                               })}
                             </CommentsList>
                           </CommentsContainer>
-                          {isCreatingComment ? (
-                            <AddCommentForm onSubmit={() => handleAddComment(el.id)}>
+                          {isCreatingComment && answer.id === cmtAnswerId ? (
+                            <AddCommentForm onSubmit={() => handleAddComment(answer.id)}>
                               <CommentFormContainer>
                                 <CommentInputContainer>
                                   <AddCommentInput>
@@ -524,7 +654,7 @@ function Question() {
                             <CommentLinkContainer>
                               <AddCommentLink
                                 onClick={() => {
-                                  setIsCreatingComment(true);
+                                  handleOpenCommentInput(answer.id);
                                 }}
                               >
                                 Add a comment

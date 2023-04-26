@@ -8,9 +8,9 @@ import useAxios from '../services/useAxios';
 import { axiosPatch } from '../services/api';
 import useInput from '../services/useInput';
 import StyledList from '../styles/StyledList';
-import { Input } from '../components/Input';
+import { Input } from '../components/feat/Input';
 
-import MarkdownViewer from '../components/MarkDownViewer';
+import MarkdownViewer from '../components/feat/MarkDownViewer';
 
 // 이걸 불러오기만 해도 하이라이팅이 됨
 import 'prismjs/themes/prism.css';
@@ -122,7 +122,7 @@ const BlueButton = styled.button`
 function EditQuestion() {
   const devUrl = process.env.REACT_APP_DEV_URL;
   const { id } = useParams();
-  const [question] = useAxios(`${devUrl}/questions/${id}`);
+  const { questions } = useAxios(`${devUrl}/questions/${id}`);
   const [questionData, setQuestionData] = useState(null);
   const [content, setContent] = useState('');
   const editorRef = useRef();
@@ -130,8 +130,8 @@ function EditQuestion() {
 
   // undefined 방지
   useEffect(() => {
-    setQuestionData(question);
-  }, [question]);
+    setQuestionData(questions);
+  }, [questions]);
 
   // content 업데이트
   useEffect(() => {
