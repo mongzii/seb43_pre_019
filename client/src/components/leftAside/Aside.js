@@ -78,6 +78,7 @@ const SideInnerBox = styled.div`
     background-color: #f38225;
     color: white;
     border-radius: 5px;
+    padding: 10px;
   }
 `;
 

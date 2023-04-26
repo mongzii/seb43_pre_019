@@ -146,7 +146,7 @@ const QUser = styled.div`
 // 그런데 그렇게 구현하려면 각 Question의 데이터를 따로 불러와야 해서 로직을 짜는 게 쉽지 않음
 // 해결 방법: MainSection 안에 Questions 관련 Styled-Components 불러와서 한 번에 구현
 
-function MainSection() {
+function Questions() {
   const devUrl = process.env.REACT_APP_DEV_URL;
   const { questions } = useAxios(`${devUrl}/questions`);
   return (
@@ -200,4 +200,4 @@ function MainSection() {
   );
 }
 
-export default MainSection;
+export default Questions;
