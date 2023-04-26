@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import
 // import styled from 'styled-components';
 
+// import Template from './components/Template';
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
@@ -14,7 +16,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* <Route path="/" element={<Template />}> */}
         <Route path="/" element={<Home />} />
+        <Route path="/mypages" element={<MyPages />} />
+        <Route path="/questions/:id" element={<Question />} />
+        {/* </Route> */}
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/questions" element={<Questions />} />
