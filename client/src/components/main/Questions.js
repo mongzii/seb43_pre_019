@@ -3,7 +3,6 @@ import useAxios from '../../services/useAxios';
 
 const Container = styled.div`
   display: flex;
-  /* justify-content: ; */
   border-top: 1px solid lightgray;
   padding-top: 10px;
   height: 110px;
@@ -28,7 +27,6 @@ const QDetail = styled.div`
   height: 128px;
   .qtitle {
     color: #1675cc;
-    /* font-weight: bold; */
     font-size: 18px;
   }
   .qbody {

@@ -4,16 +4,12 @@ import useAxios from '../../services/useAxios';
 import MarkdownViewer from '../feat/MarkDownViewer';
 
 const InnerContainer = styled.div`
-  /* position: fixed; */
-  /* display: flex; */
   padding: 20px;
 `;
 
 const TopFirst = styled.div`
   display: flex;
   justify-content: space-between;
-  /* padding: 0px 20px;
-  margin: 0px; */
   width: 802px;
 `;
 
@@ -49,7 +45,6 @@ const ButtonList = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin-top: 30px; */
   button {
     height: 35.03px;
     padding: 9.3px;
@@ -76,7 +71,6 @@ const ButtonList = styled.div`
 
 const Container = styled.div`
   display: flex;
-  /* justify-content: ; */
   border-top: 1px solid lightgray;
   padding-top: 10px;
   height: 110px;
@@ -101,7 +95,6 @@ const QDetail = styled.div`
   height: 128px;
   .qtitle {
     color: #1675cc;
-    /* font-weight: bold; */
     font-size: 18px;
     text-decoration: none;
   }

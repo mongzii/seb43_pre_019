@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 
 import Logo from './Logo';
 import LoginNav from './LoginNav';
@@ -32,8 +31,6 @@ const InnerContainer = styled.div`
 `;
 
 function Header({ isLogin }) {
-  // const [isLogin, setIsLogin] = useState(false);
-
   const buttons = isLogin ? <LoginButtons /> : <LogoutButtons />;
   const navitems = isLogin ? <LoginNav /> : <LogoutNav />;
 

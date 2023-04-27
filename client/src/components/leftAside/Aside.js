@@ -7,15 +7,11 @@ import ItemList from './ItemList';
 
 const Container = styled.div`
   width: 164px;
-  /* height: 170vh; */
   background-color: white;
-  /* padding: 0px; */
   border-right: 1px solid lightgray;
 `;
 
 const InnerContainer = styled.div`
-  /* display: flex;
-  flex-direction: column; */
   position: sticky;
   top: 64px;
   font-size: 13px;
@@ -37,7 +33,6 @@ const StyledButton = styled.button`
     padding: 10px 10px 10px 35px;
     background-color: #f1f2f3;
     font-weight: bold;
-    /* margin: 0px; */
     border-right: 3px solid #f48024;
   }
 `;
@@ -57,7 +52,6 @@ const StyledQButton = styled.button`
     padding: 10px;
     background-color: #f1f2f3;
     font-weight: bold;
-    /* margin: 0px; */
     border-right: 3px solid #f48024;
     .earth_icon {
       path {
@@ -90,14 +84,10 @@ const WhyText = styled.div`
 
 function Aside() {
   const navigate = useNavigate();
-  // const menus = ['Tags', 'Users', 'Companies'];
   return (
     <Container>
       <InnerContainer>
         <ItemList title="Home" />
-        {/* <ItemList></ItemList>
-          <p>Home</p>
-        </ItemList> */}
         <ItemList title="PUBLIC">
           <StyledQButton onClick={() => navigate('/questions')}>
             <Earth className="earth_icon" /> Questions
