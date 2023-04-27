@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { ReactComponent as SreIcon } from '../../assets/sre.svg';
 import { ReactComponent as EarnIcon } from '../../assets/earn.svg';
 import { ReactComponent as MeasureIcon } from '../../assets/measure.svg';
+import { ReactComponent as StackOverFlowIcon } from '../../assets/logo-stackof.svg';
+import { ReactComponent as PostsIcon } from '../../assets/mypage-proflie-post.svg';
 
 const Container = styled.div`
-  /* width: */
   display: flex;
 `;
 
 const LeftInner = styled.div`
-  /* width: */
   display: flex;
   flex-direction: column;
   width: 245px;
@@ -18,12 +18,7 @@ const LeftInner = styled.div`
   margin: 12px;
 `;
 
-const RightInner = styled.div`
-  /* width: */
-`;
-
 const StatsBox = styled.div`
-  margin-right: 32px;
   p {
     margin-bottom: 8px;
     font-size: 21px;
@@ -38,7 +33,7 @@ const StatInnerBox = styled.div`
   width: 219px;
   border: 1px solid lightgray;
   border-radius: 5px;
-  padding: 12px; //주석
+  padding: 12px;
 `;
 
 const StatOne = styled.div`
@@ -71,7 +66,99 @@ const StatFour = styled.div`
 `;
 
 const CommunityBox = styled.div`
+  margin: 20px 32px 0px 0px;
+  p {
+    margin-bottom: 8px;
+    font-size: 21px;
+  }
+`;
+
+const CommunityInnerBox = styled.div`
+  border: 1px solid lightgray;
+  width: 219px;
+  height: 55px;
+  padding: 12px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-size: 13px;
+  color: #0074cc;
+  svg {
+    margin-right: 6px;
+    width: 16px;
+    height: 16px;
+  }
+`;
+
+const RightInner = styled.div`
   /* width: */
+  margin: 12px;
+`;
+
+const AboutBox = styled.div`
+  margin-bottom: 30px;
+  p {
+    font-size: 21px;
+  }
+`;
+
+const AboutBoxInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid lightgray;
+  width: 782px;
+  height: 100px;
+  margin-top: 10px;
+  padding: 32px;
+  font-size: 13px;
+  color: #6a737c;
+  background-color: #f8f9f9;
+`;
+
+const BadgesBox = styled.div`
+  margin-bottom: 30px;
+  p {
+    font-size: 21px;
+  }
+`;
+
+const BadgesBoxInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid lightgray;
+  width: 782px;
+  height: 83px;
+  margin-top: 10px;
+  padding: 32px;
+  font-size: 13px;
+  color: #6a737c;
+  background-color: #f8f9f9;
+`;
+
+const PostsBox = styled.div`
+  margin-bottom: 30px;
+  p {
+    font-size: 21px;
+  }
+`;
+
+const PostsBoxInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid lightgray;
+  width: 782px;
+  height: 398px;
+  margin-top: 10px;
+  padding: 32px;
+  font-size: 13px;
+  color: #6a737c;
+  background-color: #f8f9f9;
 `;
 
 function UserProfile() {
@@ -101,22 +188,35 @@ function UserProfile() {
         </StatsBox>
         <CommunityBox>
           <p>Communities</p>
-          <div>Stack Overflow</div>
+          <CommunityInnerBox>
+            <StackOverFlowIcon />
+            Stack Overflow
+          </CommunityInnerBox>
         </CommunityBox>
       </LeftInner>
       <RightInner>
-        <div>
+        <AboutBox>
           <p>About</p>
-          <div>Your</div>
-        </div>
-        <div>
+          <AboutBoxInner>
+            Your about me section is currently blank. Would you <br />
+            like to add one? Edit profile
+          </AboutBoxInner>
+        </AboutBox>
+        <BadgesBox>
           <p>Badges</p>
-          <div>You hava</div>
-        </div>
-        <div>
+          <BadgesBoxInner>You have not earned any badges.</BadgesBoxInner>
+        </BadgesBox>
+        <PostsBox>
           <p>Posts</p>
-          <div>Just</div>
-        </div>
+          <PostsBoxInner>
+            <PostsIcon />
+            Just getting started? Try answering a question! <br />
+            Your most helpful questions, answers and tags will appear here. Start
+            <br /> by answering a question or selecting tags that match topics you’re
+            <br />
+            interested in.
+          </PostsBoxInner>
+        </PostsBox>
       </RightInner>
     </Container>
   );
