@@ -12,6 +12,7 @@ import Questions from './pages/Questions';
 import Question from './pages/Question';
 import AskQuestion from './pages/AskQuestion';
 import MyPages from './pages/MyPages';
+import MyPagesActivity from './pages/MyPagesActivity';
 import EditQuestion from './pages/EditQuestion';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/mypages" element={<MyPages />} />
+        <Route path="/mypages/activity" element={<MyPagesActivity />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/questions" element={<Questions />} />

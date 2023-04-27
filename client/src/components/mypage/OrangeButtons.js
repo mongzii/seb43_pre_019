@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   margin-top: 20px;
@@ -12,20 +13,21 @@ const Container = styled.div`
       border-radius: 50px;
       background-color: #e3e6e8;
     }
-    /* :active {
+    :active {
       border-radius: 50px;
       background-color: #f48225;
       color: white;
       font-weight: bold;
-    } */
+    }
   }
 `;
 
 function OrangeButtons() {
+  const navigate = useNavigate();
   return (
     <Container>
-      <button>Profile</button>
-      <button>Activity</button>
+      <button onClick={() => navigate('/mypages')}>Profile</button>
+      <button onClick={() => navigate('/mypages/activity')}>Activity</button>
       <button>Saves</button>
       <button>Settings</button>
     </Container>
