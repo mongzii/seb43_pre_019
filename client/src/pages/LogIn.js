@@ -106,8 +106,8 @@ const ErrorMsg = styled.span`
 // `;
 
 // 0427 14:45pm
-function LogIn() {
-  const [isLogin, setIsLogin] = useState(false);
+function LogIn({ setIsLogin }) {
+  // const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
