@@ -7,6 +7,7 @@ const signupSlice = createSlice({
     email: null,
     password: null,
     isSubmit: false,
+    isLogin: false,
   },
   reducers: {
     setDisplayName: (state, action) => {

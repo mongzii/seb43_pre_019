@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Header from '../components/header/Header';
 import Aside from '../components/leftAside/Aside';
 import MyHeader from '../components/mypage/MyHeader';
-// import UserActivity from '../components/mypage/UserActivity';
+import UserActivity from '../components/mypage/UserActivity';
 import UserProfile from '../components/mypage/UserProfile';
 import Footer from '../components/footer/Footer';
 
@@ -33,7 +33,7 @@ const InnerContainer = styled.div`
 // `;
 
 function MyPages() {
-  // const [isProfile, setIsProfile] = useState(true);
+  const [isProfile, setIsProfile] = useState(true);
 
   // const profilebuttons = isProfile ? <UserProfile /> : <UserActivity />;
 
@@ -44,7 +44,7 @@ function MyPages() {
         <Aside />
         <InnerContainer>
           <MyHeader />
-          <UserProfile />
+          <UserActivity />
         </InnerContainer>
       </Container>
       <Footer />

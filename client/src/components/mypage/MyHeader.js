@@ -18,8 +18,6 @@ const Container = styled.div`
 `;
 
 const UserInfo = styled.div`
-  /* display: flex; */
-  /* justify-content: space-between; */
   margin-left: 8px;
 `;
 

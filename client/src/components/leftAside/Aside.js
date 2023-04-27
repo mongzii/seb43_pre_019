@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Earth } from '../../assets/ic-earth.svg';
 import { ReactComponent as Star } from '../../assets/start.svg';
 import { ReactComponent as Team } from '../../assets/team_img.svg';
@@ -78,6 +79,7 @@ const SideInnerBox = styled.div`
     background-color: #f38225;
     color: white;
     border-radius: 5px;
+    padding: 10px;
   }
 `;
 
@@ -87,7 +89,8 @@ const WhyText = styled.div`
 `;
 
 function Aside() {
-  const menus = ['Tags', 'Users', 'Companies'];
+  const navigate = useNavigate();
+  // const menus = ['Tags', 'Users', 'Companies'];
   return (
     <Container>
       <InnerContainer>
@@ -96,12 +99,17 @@ function Aside() {
           <p>Home</p>
         </ItemList> */}
         <ItemList title="PUBLIC">
-          <StyledQButton>
+          <StyledQButton onClick={() => navigate('/questions')}>
             <Earth className="earth_icon" /> Questions
           </StyledQButton>
-          {menus.map(menu => (
+          {/* {menus.map(menu => (
             <StyledButton className="pl">{menu}</StyledButton>
-          ))}
+          ))} */}
+          <StyledButton className="pl">Tags</StyledButton>
+          <StyledButton className="pl" onClick={() => navigate('/mypages')}>
+            Users
+          </StyledButton>
+          <StyledButton className="pl">Companies</StyledButton>
         </ItemList>
         <ItemList title="COLLECTIVES">
           <div>
