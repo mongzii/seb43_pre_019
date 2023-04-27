@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 // import
 // import styled from 'styled-components';
 
@@ -13,6 +14,8 @@ import MyPages from './pages/MyPages';
 import EditQuestion from './pages/EditQuestion';
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+
   return (
     <BrowserRouter>
       <Routes>

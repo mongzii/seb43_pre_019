@@ -29,7 +29,7 @@ const GoogleButton = styled.button`
   border: 1px solid black;
   border-radius: 5px;
   height: 30px;
-  margin-top: 300px;
+  margin-top: 30px;
 `;
 
 const GithubButton = styled.button`
@@ -70,14 +70,14 @@ const Styledloginbox = styled.body`
   }
 
   > input {
-    height: 20px;
+    height: 30px;
   }
   > input:focus {
     border: 5px solid #d9eaf7;
     border-style: outset;
   }
   > button {
-    width: 210px;
+    width: 200px;
     background-color: #0a95ff;
     color: white;
     border: white;
@@ -90,11 +90,28 @@ const Styledloginbox = styled.body`
   }
 `;
 
+const ErrorMsg = styled.span`
+  color: red;
+  font-size: 11px;
+  font-weight: 200;
+`;
+// const SubDesign = styled.div`
+//   background-color: #385499;
+//   color: black;
+// `;
+
+// const SubDesignSub = styled.div`
+//   color: blue;
+//   white-space: nowrap;
+// `;
+
+// 0427 14:45pm
 function LogIn() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [emailValid, setEmailValid] = useState(false);
 
   const navigate = useNavigate();
   // const [name, setName] = useState('');
@@ -114,6 +131,13 @@ function LogIn() {
   function onEmailHandler(e) {
     setUsername(e.target.value);
     // console.log(e.target.value);
+    const regex =
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    if (regex.test(username)) {
+      setEmailValid(true);
+    } else {
+      setEmailValid(false);
+    }
   }
   function onPasswordHandler(e) {
     setPassword(e.target.value);
@@ -125,25 +149,34 @@ function LogIn() {
       username,
       password,
     };
-    // 0426 23:34pm
+
     // `http://localhost:8081/login`
     axios
-      // .post(`/api/members/login`, {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      //   },
-      //   userData,
-      // })
       .post(`/api/members/login`, userData)
       .then(res => {
         console.log(res);
         // console.log(res.headers);
         // console.log(res.headers.authorization);    // 여기에 토큰값이 들어있다.
+        localStorage.setItem('accessToken', res.headers.authorization);
+        localStorage.setItem('refreshToken', res.headers.refresh);
+        // console.log(username);
+        // setUserInfo(username);
 
-        localStorage.setItem('accessToken', res.data);
+        setIsLogin(true);
         navigate('/');
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        alert('다시해');
+        setUsername('');
+      });
+
+    if (!emailValid) {
+      console.log('이메일형식아냐');
+    }
+    // } else {
+    //   console.log('ok');
+    // }
   };
 
   //   axios
@@ -308,10 +341,10 @@ function LogIn() {
 
   return (
     <>
-      <Header />
+      <Header setIsLogin={setIsLogin} />
       <main>
         <Styledlogin>
-          <StackoverFlowLogo />
+          <StackoverFlowLogo style={{ marginTop: '250px', marginLeft: '130px' }} />
           <GoogleButton>
             <FcGoogle size="19" />
             Log in with Google
@@ -329,6 +362,10 @@ function LogIn() {
           <Styledloginbox>
             <span>Email</span>
             <input onChange={onEmailHandler} />
+            {!emailValid === false && (
+              <ErrorMsg>The email is not a valid email address.</ErrorMsg>
+            )}
+
             <span>Password</span>
             {/* <span>Forgot password?</span> */}
             <input type="password" onChange={onPasswordHandler} />
@@ -336,6 +373,16 @@ function LogIn() {
           </Styledloginbox>
         </body>
       </main>
+      {/* <sub>
+        <SubDesign>
+          <p>
+            Don&apos;t have an account? <SubDesignSub>Sign up</SubDesignSub>
+          </p>
+          <p>
+            Are you an employer? <SubDesignSub>Sign up on Talent</SubDesignSub>
+          </p>
+        </SubDesign>
+      </sub> */}
     </>
   );
 }
