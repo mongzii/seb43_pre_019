@@ -31,8 +31,8 @@ const InnerContainer = styled.div`
   max-width: 1264px;
 `;
 
-function Header() {
-  const [isLogin, setIsLogin] = useState(false);
+function Header({ isLogin }) {
+  // const [isLogin, setIsLogin] = useState(false);
 
   const buttons = isLogin ? <LoginButtons /> : <LogoutButtons />;
   const navitems = isLogin ? <LoginNav /> : <LogoutNav />;

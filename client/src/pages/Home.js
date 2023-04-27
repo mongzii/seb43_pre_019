@@ -22,10 +22,10 @@ const Container = styled.div`
   }
 `;
 
-function Home() {
+function Home({ isLogin, setIsLogin }) {
   return (
     <>
-      <Header />
+      <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <Container>
         <Aside />
         <img src={HomeImg} alt="homeimg" />
