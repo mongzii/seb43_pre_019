@@ -5,56 +5,79 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Header from '../components/header/Header';
+import { ReactComponent as Sign1 } from '../assets/sign1.svg';
+import { ReactComponent as Sign2 } from '../assets/sign2.svg';
+import { ReactComponent as Sign3 } from '../assets/sign3.svg';
+import { ReactComponent as Sign4 } from '../assets/sign4.svg';
+import { ReactComponent as Google } from '../assets/google.svg';
+import Github from '../assets/github.png';
+import Facebook from '../assets/facebook.png';
+import NotRobot from '../assets/notrobot.png';
+import { ReactComponent as Question } from '../assets/question.svg';
 
 const Styledbody = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #f1f2f3;
 `;
 const Styledmain = styled.div`
   display: flex;
   flex-direction: column;
-  // flex-grow: 2;
   width: 380px;
-
-  > button {
-    margin: 5px;
-  }
 `;
 
 const Styledsub = styled.div`
-  border: 3px solid black;
+  border: none;
   margin-right: 30px;
-  line-height: 50px;
+  /* line-height: 50px; */
+  .join {
+    font-size: 27px;
+    margin-bottom: 30px;
+  }
 `;
 
-// const Styledarticle = styled.div`
-//   font-size: 2rem;
-// `;
-
-// const StyledBts = styled.div`
-//   border: 3px solid blue;
-// `;
-
 const Styledinfo = styled.div`
-  border: 3px solid black;
+  border: none;
   display: flex;
   flex-direction: column;
+  background-color: white;
+  width: 315px;
+  margin: 5px;
+  border-radius: 5px;
   box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.2);
 
   > * {
     margin: 5px;
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: 25px;
+    margin-right: 25px;
   }
 
   > span {
     margin-top: 20px;
+    font-weight: bold;
   }
 
   > input {
+    border-radius: 5px;
+    border: 1px solid lightgray;
     height: 35px;
+  }
+
+  p {
+    font-size: 12px;
+    color: #6a737c;
+    margin-top: 0px;
+  }
+
+  .mb {
+    margin-bottom: 30px;
+  }
+
+  .checkbox {
+    width: 13px;
+    height: 13px;
   }
 
   > button {
@@ -135,63 +158,127 @@ function SignUp() {
       });
   };
 
-  // useEffect(() => {
-  //   if (emailValid && passwordValid) {
-  //     setNotAllow(false);
-  //     return;
-  //   }
-  //   setNotAllow(true);
-  // }, [emailValid, passwordValid]);
+  const StyledSign = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    svg {
+      margin-right: 9px;
+    }
+  `;
 
-  // const SignupHandler = e => {
-  //   e.preventDefault();
-  //   // console.log(e.type);
-  //   // console.log(email);
-  //   // console.log(name);
-  //   fetch(`http://localhost:8081/sign`, {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       name,
-  //       email,
-  //       password,
-  //     }),
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => console.log(data));
-  //   // .then(data => setLogin(data));
-  // };
+  const StyledSub = styled.div`
+    font-size: 13px;
+    margin: 0px;
+    .get {
+      color: #0074cc;
+    }
+  `;
 
-  // useSelector써서 store에 있는 함수를 가져와서 쓴다.
-  // store에 있는 모든 state를 가져오게된거다.
-  // const State = useSelector(state => {
-  //   return state;
-  // });
-  // console.log(State);
-  // console.log(State.emailwrite);
-  // console.log(State.info[1]);
-  // console.log(State.info[1].pwpart);
-  // 0424 2:16am
+  const SignupButton1 = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    margin-top: 40px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    width: 316px;
+    svg {
+      margin-right: 5px;
+    }
+  `;
+
+  const SignupButton2 = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    background-color: black;
+    font-weight: bold;
+    color: white;
+    width: 316px;
+    img {
+      width: 25px;
+      height: 25px;
+      margin-right: 5px;
+    }
+  `;
+
+  const SignupButton3 = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    padding: 10px;
+    background-color: #385499;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    width: 316px;
+    img {
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      margin-right: 5px;
+    }
+  `;
+
+  const StyledCheckbox = styled.div`
+    display: flex;
+    svg {
+      width: 35px;
+      height: 35px;
+    }
+  `;
 
   return (
     <>
       <Header />
       <Styledbody>
         <Styledsub>
-          <p>Join the Stack Overflow community</p>
-          <p>Get unstuck - ask a question</p>
-          <p>Unlock new pribileges like voting and commenting</p>
-          <p>Save your favorite questions, answers, watch tags, and</p>
-          <p>more</p>
-          <p>Earn reputation and badges</p>
-          <p>Collaborate and share knowledge with a private group for FREE.</p>
-          <p>Get Stack Overflow for Teams free for up to 50 users.</p>
+          <p className="join">Join the Stack Overflow community</p>
+          <StyledSign>
+            <Sign1 />
+            <p>Get unstuck - ask a question</p>
+          </StyledSign>
+          <StyledSign>
+            <Sign2 />
+            <p>Unlock new pribileges like voting and commenting</p>
+          </StyledSign>
+          <StyledSign>
+            <Sign3 />
+            <p>Save your favorite questions, answers, watch tags, and more </p>
+          </StyledSign>
+          <StyledSign>
+            <Sign4 />
+            <p>Earn reputation and badges</p>
+          </StyledSign>
+          <StyledSub>
+            <p>Collaborate and share knowledge with a private group for FREE.</p>
+            <p className="get">Get Stack Overflow for Teams free for up to 50 users.</p>
+          </StyledSub>
         </Styledsub>
 
         <Styledmain>
-          <button>Sign up with Google</button>
-          <button>Sign up with GitHub</button>
-          <button>Sign up with Facebook</button>
+          <SignupButton1>
+            <Google />
+            Sign up with Google
+          </SignupButton1>
+          <SignupButton2>
+            <img src={Github} alt="github" />
+            Sign up with GitHub
+          </SignupButton2>
+          <SignupButton3>
+            <img src={Facebook} alt="facebook" />
+            Sign up with Facebook
+          </SignupButton3>
           <Styledinfo>
             <span>Display name</span>
             <input value={displayName} onChange={onHandleName} />
@@ -202,14 +289,24 @@ function SignUp() {
             </div>
             <span>Password</span>
             <input value={password} type="password" onChange={onHandlePassword} />
-            <p>Passwords must contain at least eight characters,</p>
-            <p>including at least 1 letter and 1 number.</p>
-            <p>Opt-in to receive occasional product</p>
-            <p>updates, user research invitations, company</p>
-            <p>announcements, and digests.</p>
+            <p>
+              Passwords must contain at least eight characters,including at least 1 letter
+              and 1 number.
+            </p>
+            <img src={NotRobot} alt="notrobot" />
+            <StyledCheckbox>
+              <input type="checkbox" className="checkbox" />
+              <p>
+                Opt-in to receive occasional product updates, user research invitations,
+                company announcements, and digests.
+              </p>
+              <Question />
+            </StyledCheckbox>
             <button onClick={SignupHandler}>Sign up</button>
-            <p>By clicking Sign up, you agree to our terms of</p>
-            <p>service, privacy policy and cookie policy</p>
+            <p className="mb">
+              By clicking Sign up, you agree to our terms of service, privacy policy and
+              cookie policy
+            </p>
           </Styledinfo>
         </Styledmain>
       </Styledbody>
