@@ -1,7 +1,6 @@
-// import { useState } from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
+
 import axios from 'axios';
 import styled from 'styled-components';
 import Header from '../components/header/Header';
@@ -31,7 +30,6 @@ const Styledmain = styled.div`
 const Styledsub = styled.div`
   border: none;
   margin-right: 30px;
-  /* line-height: 50px; */
   .join {
     font-size: 27px;
     margin-bottom: 30px;

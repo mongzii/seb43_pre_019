@@ -91,7 +91,6 @@ const CommunityInnerBox = styled.div`
 `;
 
 const RightInner = styled.div`
-  /* width: */
   margin: 12px;
 `;
 

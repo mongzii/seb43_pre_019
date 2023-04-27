@@ -90,23 +90,19 @@ const ListContent = styled.div`
 `;
 
 const ListAnswers = styled.div`
-  /* font-size: 15px; */
   width: calc(50% - 1rem);
   margin-right: 32px;
 `;
 
 const ListQue = styled.div`
-  /* font-size: 15px; */
   width: calc(50% - 1rem);
 `;
 
 const ListRepu = styled.div`
-  /* font-size: 15px; */
   width: calc(50% - 1rem);
 `;
 
 const ListTags = styled.div`
-  /* font-size: 15px; */
   width: calc(50% - 1rem);
   margin-right: 32px;
 `;
@@ -143,8 +139,6 @@ const ListButtons = styled.div`
 `;
 
 const ListButton = styled.button`
-  /* border-radius: 5px; */
-  /* background-color: #e3e6e8; */
   background-color: white;
   font-size: 11px;
   padding: 6.6px;

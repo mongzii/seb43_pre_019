@@ -5,8 +5,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 126px;
   margin-right: 32px;
-  /* position: sticky;
-  top: 64px; */
+
   button {
     background-color: white;
     padding: 6px 48px 6px 12px;

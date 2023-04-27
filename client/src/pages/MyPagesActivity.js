@@ -10,7 +10,6 @@ import Footer from '../components/footer/Footer';
 
 const Container = styled.div`
   width: 100vw;
-  /* height: 1000px; */
   background-color: white;
   display: flex;
   justify-content: center;
@@ -18,7 +17,6 @@ const Container = styled.div`
 
 const InnerContainer = styled.div`
   width: 1102px;
-  /* height: 500px; */
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -26,15 +24,9 @@ const InnerContainer = styled.div`
   margin-top: 58px;
   position: relative;
 `;
-// const InnerContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   margin: 20px;
-// `;
 
 function MyPages() {
-  const [isProfile, setIsProfile] = useState(true);
-
+  // const [isProfile, setIsProfile] = useState(true);
   // const profilebuttons = isProfile ? <UserProfile /> : <UserActivity />;
 
   return (

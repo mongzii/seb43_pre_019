@@ -4,9 +4,6 @@ import RightAside from './RightAside';
 
 const Container = styled.main`
   display: flex;
-  /* position: relative; */
-  /* height: 170vh; */
-  /* background-color: white; */
 `;
 
 function Main() {

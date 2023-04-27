@@ -5,13 +5,6 @@ import Aside from '../components/leftAside/Aside';
 import Main from '../components/main/Main';
 import Footer from '../components/footer/Footer';
 import HomeImg from '../assets/Home.png';
-// import { StyledBody, AppContainer, StyledMain } from './styles/StyledApp';
-
-// import RightSideBar from './components/RightSideBar';
-// import Questions from './pages/Questions';
-// import Tags from './pages/Tags';
-// import Users from './pages/Users';
-// import Companies from './pages/Companies';
 
 const Container = styled.div`
   display: flex;

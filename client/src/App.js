@@ -1,9 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
-// import
-// import styled from 'styled-components';
-
-// import Template from './components/Template';
 
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
