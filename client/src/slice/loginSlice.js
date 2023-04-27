@@ -25,6 +25,9 @@ const loginSlice = createSlice({
     setEmailForPass: (state, action) => {
       state.emailPass = action.payload;
     },
+    setLogin: (state, action) => {
+      return action.payload;
+    },
   },
 });
 

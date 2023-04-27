@@ -3,6 +3,23 @@ import { Link } from 'react-router-dom';
 import useAxios from '../services/useAxios';
 import MarkdownViewer from '../components/feat/MarkDownViewer';
 
+import Header from '../components/header/Header';
+import Aside from '../components/leftAside/Aside';
+import RightAside from '../components/main/RightAside';
+import Footer from '../components/footer/Footer';
+
+const TopContainer = styled.div`
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  margin-top: 57px;
+`;
+
+const TwoSection = styled.div`
+  width: 1101px;
+  display: flex;
+`;
+
 const InnerContainer = styled.div`
   /* position: fixed; */
   /* display: flex; */
@@ -146,58 +163,68 @@ const QUser = styled.div`
 // 그런데 그렇게 구현하려면 각 Question의 데이터를 따로 불러와야 해서 로직을 짜는 게 쉽지 않음
 // 해결 방법: MainSection 안에 Questions 관련 Styled-Components 불러와서 한 번에 구현
 
-function MainSection() {
+function Questions() {
   const devUrl = process.env.REACT_APP_DEV_URL;
-  const { questions } = useAxios(`/api/questions`);
+  const { questions } = useAxios(`${devUrl}/questions`);
   return (
-    <InnerContainer>
-      <TopFirst>
-        <QHeader>All Questions</QHeader>
-        <Link to="/questions/ask">
-          <BlueButton>Ask Question</BlueButton>
-        </Link>
-      </TopFirst>
-      <TopSecond>
-        <p>23,645,216 questions</p>
-        <ButtonList>
-          <button>Newest</button>
-          <button>Active</button>
-          <button>Bountied</button>
-          <button>Unanswered</button>
-          <button>More</button>
-          <button className="filter">Filter</button>
-        </ButtonList>
-      </TopSecond>
-      {!questions
-        ? null
-        : questions.map(question => (
-            <Container key={question.id}>
-              <QAnswer>
-                <p>0 votes</p>
-                <p className="answer">0 answers</p>
-                <p className="answer">0 views</p>
-              </QAnswer>
-              <QDetail>
-                <Link className="qtitle" to={`/questions/${question.id}`}>
-                  <h3>{question.title}</h3>
-                  <p className="qbody">
-                    <MarkdownViewer content={question.body} />
-                  </p>
-                </Link>
-              </QDetail>
-              <QUser>
-                <img
-                  src="https://www.gravatar.com/avatar/9809af9b625621928e70e9f40ef050a4?s=32&d=identicon&r=PG&f=1"
-                  alt="useravatar"
-                />
-                <span className="username">Jared</span>
-                <span className="reputation">11</span>
-                <span className="time">asked 44 mins ago</span>
-              </QUser>
-            </Container>
-          ))}
-    </InnerContainer>
+    <>
+      <TopContainer>
+        <Header />
+        <Aside />
+        <TwoSection>
+          <InnerContainer>
+            <TopFirst>
+              <QHeader>All Questions</QHeader>
+              <Link to="/questions/ask">
+                <BlueButton>Ask Question</BlueButton>
+              </Link>
+            </TopFirst>
+            <TopSecond>
+              <p>23,645,216 questions</p>
+              <ButtonList>
+                <button>Newest</button>
+                <button>Active</button>
+                <button>Bountied</button>
+                <button>Unanswered</button>
+                <button>More</button>
+                <button className="filter">Filter</button>
+              </ButtonList>
+            </TopSecond>
+            {!questions
+              ? null
+              : questions.map(question => (
+                  <Container key={question.id}>
+                    <QAnswer>
+                      <p>0 votes</p>
+                      <p className="answer">0 answers</p>
+                      <p className="answer">0 views</p>
+                    </QAnswer>
+                    <QDetail>
+                      <Link className="qtitle" to={`/questions/${question.id}`}>
+                        <h3>{question.title}</h3>
+                        <p className="qbody">
+                          <MarkdownViewer content={question.body} />
+                        </p>
+                      </Link>
+                    </QDetail>
+                    <QUser>
+                      <img
+                        src="https://www.gravatar.com/avatar/9809af9b625621928e70e9f40ef050a4?s=32&d=identicon&r=PG&f=1"
+                        alt="useravatar"
+                      />
+                      <span className="username">Jared</span>
+                      <span className="reputation">11</span>
+                      <span className="time">asked 44 mins ago</span>
+                    </QUser>
+                  </Container>
+                ))}
+          </InnerContainer>
+          <RightAside />
+        </TwoSection>
+      </TopContainer>
+      <Footer />
+    </>
   );
 }
 
-export default MainSection;
+export default Questions;
