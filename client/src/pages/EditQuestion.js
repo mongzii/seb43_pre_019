@@ -128,6 +128,20 @@ function EditQuestion() {
   const editorRef = useRef();
   const titleBind = useInput('');
 
+  // token
+  const [accessToken, setAccessToken] = useState(
+    'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoic29vbWFuMzM0QGdtYWlsLmNvbSIsInN1YiI6InNvb21hbjMzNEBnbWFpbC5jb20iLCJpYXQiOjE2ODI1MjA2MzAsImV4cCI6MTY4MjU2MzgzMH0.YQrWoHjZmB6-hNzdHdhsNSfEX4Kis-AMOsFl2qxIsfk' ||
+      '',
+  );
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem('refreshToken') || '',
+  );
+
+  // useEffect(() => {
+  //   setAccessToken(localStorage.getItem('accessToken'));
+  //   setRefreshToken(localStorage.getItem('refreshToken'));
+  // }, []);
+
   // undefined 방지
   useEffect(() => {
     setQuestionData(questions);
@@ -163,7 +177,7 @@ function EditQuestion() {
       title: titleBind.curValue,
       body: value,
     };
-    axiosPatch(`/api/questions/${id}`, editedData, id);
+    axiosPatch(`/api/questions/${id}`, editedData, id, accessToken, refreshToken);
   };
 
   return (

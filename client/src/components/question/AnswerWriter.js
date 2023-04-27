@@ -81,14 +81,17 @@ const UserDetails = styled.div`
   }
 `;
 
-function AnswerWriter() {
+function AnswerWriter({ answer }) {
+  const answeredAt = new Date(Date.parse(answer.createdAt)).toLocaleString('ko-KR', {
+    timeZone: 'Asia/Seoul',
+  });
   return (
     <Container>
       <UserInfo>
         <UserActionTime>
           <span>answered</span>
           <span title="2023-04-23 04:48:13Z" className="postedtime">
-            just now
+            {answeredAt}
           </span>
         </UserActionTime>
         <UserWrap>
@@ -103,7 +106,7 @@ function AnswerWriter() {
           </UserAvatar>
           <UserDetails>
             <a className="user-name" href="/">
-              hajongon
+              {answer.writtenBy}
             </a>
             <div className="flair">
               <span>4,379</span>

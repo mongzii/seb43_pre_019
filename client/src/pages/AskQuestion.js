@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import useInput from '../services/useInput';
@@ -142,18 +142,31 @@ function AskQuestion() {
   const editorBodyRef = useRef();
   const editorDetailsRef = useRef();
 
-  const devUrl = process.env.REACT_APP_DEV_URL;
+  // token
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem('accessToken') || '',
+  );
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem('refreshToken') || '',
+  );
 
+  useEffect(() => {
+    setAccessToken(localStorage.getItem('accessToken'));
+    setRefreshToken(localStorage.getItem('refreshToken'));
+  }, []);
+
+  // submit question
   const handleSubmit = e => {
     e.preventDefault();
     const bodyValue = editorBodyRef.current?.getInstance().getHTML();
     const detailsValue = editorDetailsRef.current?.getInstance().getHTML();
+    // token을 빼내서 들고 있을 수 있다
     const data = {
       title: titleBind.curValue,
       body: `${bodyValue}\n${detailsValue}`,
       details: detailsValue,
     };
-    axiosCreate(`/api/questions`, data);
+    axiosCreate(`/api/questions`, data, accessToken, refreshToken);
   };
 
   return (
