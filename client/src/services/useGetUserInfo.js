@@ -20,7 +20,7 @@ const useGetUserInfo = url => {
       },
     })
       .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         setUserInfo(response.data);
       })
       .catch(err => setError(err.message));

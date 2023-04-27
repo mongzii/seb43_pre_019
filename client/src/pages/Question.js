@@ -3,6 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import styled from 'styled-components';
 import axios from 'axios';
+import Header from '../components/header/Header';
+import Aside from '../components/leftAside/Aside';
+import Footer from '../components/footer/Footer';
 import useAxios from '../services/useAxios';
 import useGetUserInfo from '../services/useGetUserInfo';
 import {
@@ -26,8 +29,16 @@ import AnswerWriter from '../components/question/AnswerWriter';
 
 import { ReactComponent as Pencil } from '../assets/ic-pencil.svg';
 
+const Container = styled.div`
+  width: 100vw;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+`;
+
 const StyledQuestionContainer = styled.div`
-  width: 100%;
+  width: 850px;
+  margin: 57px;
   h2 {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI Adjusted', 'Segoe UI',
       'Liberation Sans', sans-serif;
@@ -380,8 +391,7 @@ function Question() {
 
   // token
   const [accessToken, setAccessToken] = useState(
-    'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoic29vbWFuMzM0QGdtYWlsLmNvbSIsInN1YiI6InNvb21hbjMzNEBnbWFpbC5jb20iLCJpYXQiOjE2ODI1NzI0MzQsImV4cCI6MTY4MjYxNTYzNH0.dmKr38kmkVVB8vmmiUoodWoWOcfxa0uHOw4k_spMs54' ||
-      '',
+    localStorage.getItem('accessToken') || '',
   );
   const [refreshToken, setRefreshToken] = useState(
     localStorage.getItem('refreshToken') || '',
@@ -390,7 +400,7 @@ function Question() {
   // userInfo
   const { userInfo } = useGetUserInfo(`/api/members/info`);
 
-  console.log(answers);
+  console.log(accessToken);
 
   // useEffect(() => {
   //   setQuestionData(questions);
@@ -474,6 +484,10 @@ function Question() {
 
   // answer 목록 중 수정할 answer의 에디터를 open
   const handleOpenAnswerEditor = answer => {
+    if (answer.writtenBy !== userInfo.displayName) {
+      setIsAnswerModalOpen(true);
+      return;
+    }
     // if (현재 유저의 userid와 answer의 userid가 다르다) => return
     setIsEditingAnswer(true);
     setEditingAnswerId(answer.id);
@@ -487,10 +501,6 @@ function Question() {
 
   // edit한 answer로 PATCH 요청
   const handleEditAnswer = answer => {
-    if (answer.writtenBy !== userInfo.displayName) {
-      setIsAnswerModalOpen(true);
-      return;
-    }
     const answerValue = editingAnswerRef.current?.getInstance().getHTML();
     const editedAnswer = {
       content: answerValue,
@@ -651,300 +661,317 @@ function Question() {
   }
 
   return (
-    <StyledQuestionContainer>
-      <StyledQuestion>
-        <QuestionHeader>
-          <h2>{questions.title}</h2>
-          <BlueButton
-            onClick={() => {
-              navigate('/questions/ask');
-            }}
-          >
-            Ask Question
-          </BlueButton>
-        </QuestionHeader>
-        <DateWrap />
-        <PostLayout>
-          <VoteCell />
-          <PostCell>
-            <PostBody>
-              <MarkdownViewer content={questions.body} />
-              <PostTags />
-              <PostFooter>
-                <PostFooterWrap>
-                  <ModalButtonWrap>
-                    <ButtonWrap>
-                      <button type="button">share</button>
+    <>
+      <Container>
+        <Header />
+        <Aside />
+        <StyledQuestionContainer>
+          <StyledQuestion>
+            <QuestionHeader>
+              <h2>{questions.title}</h2>
+              <BlueButton
+                onClick={() => {
+                  navigate('/questions/ask');
+                }}
+              >
+                Ask Question
+              </BlueButton>
+            </QuestionHeader>
+            <DateWrap />
+            <PostLayout>
+              <VoteCell />
+              <PostCell>
+                <PostBody>
+                  <MarkdownViewer content={questions.body} />
+                  <PostTags />
+                  <PostFooter>
+                    <PostFooterWrap>
+                      <ModalButtonWrap>
+                        <ButtonWrap>
+                          <button type="button">share</button>
 
-                      <button type="button" onClick={handleEdit}>
-                        edit
-                      </button>
+                          <button type="button" onClick={handleEdit}>
+                            edit
+                          </button>
 
-                      <button type="button" onClick={handleDelete}>
-                        delete
-                      </button>
-                      <button type="button">follow</button>
-                    </ButtonWrap>
-                    {isQuestionModalOpen && (
-                      <EditErrorModal>
-                        <span>Account is suspended.</span>
-                        <button
-                          onClick={() => {
-                            setIsQuestionModalOpen(false);
-                          }}
-                        >
-                          x
-                        </button>
-                      </EditErrorModal>
-                    )}
-                  </ModalButtonWrap>
-                  <PostEditor>
-                    <span>edited</span>
-                    <span className="editedtime">Dec 23, 2021 at 20:30</span>
-                  </PostEditor>
-                  <PostWriter question={questions} />
-                </PostFooterWrap>
-              </PostFooter>
-            </PostBody>
-          </PostCell>
-        </PostLayout>
-      </StyledQuestion>
-      {answersData.length ? (
-        <StyledAnswer>
-          <AnswersHeader>
-            <AnswersSubHeader>
-              <AnswersCount>
-                {pageInfosData ? (
-                  <h3>{!pageInfosData ? 0 : pageInfosData.totalElements} Answers</h3>
-                ) : null}
-              </AnswersCount>
-              <AnswerSort />
-            </AnswersSubHeader>
-          </AnswersHeader>
-          <div className="buttonContainer">{pageButtons}</div>
-          {!answersData
-            ? null
-            : answersData.map(answer => {
-                return (
-                  <ul>
-                    <li key={answer.id}>
-                      <AnswerLayout>
-                        {isEditingAnswer && editingAnswerId === answer.id ? (
-                          <EditingAnswer>
-                            <EditingAnswerInput>
-                              <StyledInputForm
-                                onSubmit={() => {
-                                  handleEditAnswer(answer);
-                                }}
-                              >
-                                <h3>Your Answer</h3>
-                                <MarkDown
-                                  editorRef={editingAnswerRef}
-                                  preText={preText}
-                                />
-                                <div className="form-submit">
-                                  <BlueButton type="submit">Edit Your Answer</BlueButton>
-                                  <CancelButton onClick={handleCancelEditAnswer}>
-                                    cancel
-                                  </CancelButton>
-                                </div>
-                              </StyledInputForm>
-                            </EditingAnswerInput>
-                          </EditingAnswer>
-                        ) : (
-                          <>
-                            <VoteCell />
-                            <PostCell>
-                              <AnswerBody>
-                                <MarkdownViewer content={answer.content} />
-                              </AnswerBody>
-                              <PostFooter>
-                                <PostFooterWrap>
-                                  <ButtonWrap>
-                                    <button type="button">share</button>
-                                    <button
-                                      type="button"
-                                      onClick={() => handleOpenAnswerEditor(answer)}
-                                    >
-                                      edit
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={() => handleDeleteAnswer(answer)}
-                                    >
-                                      delete
-                                    </button>
-                                    <button type="button">flag</button>
-                                  </ButtonWrap>
-                                  {isAnswerModalOpen && (
-                                    <EditErrorModal>
-                                      <span>Account is suspended.</span>
-                                      <button
-                                        onClick={() => {
-                                          setIsAnswerModalOpen(false);
-                                        }}
-                                      >
-                                        x
-                                      </button>
-                                    </EditErrorModal>
-                                  )}
-                                  <PostEditor>
-                                    <span>edited</span>
-                                    <span className="editedtime">
-                                      Dec 23, 2021 at 20:30
-                                    </span>
-                                  </PostEditor>
-                                  <AnswerWriter answer={answer} />
-                                </PostFooterWrap>
-                              </PostFooter>
-                            </PostCell>
-                          </>
+                          <button type="button" onClick={handleDelete}>
+                            delete
+                          </button>
+                          <button type="button">follow</button>
+                        </ButtonWrap>
+                        {isQuestionModalOpen && (
+                          <EditErrorModal>
+                            <span>Account is suspended.</span>
+                            <button
+                              onClick={() => {
+                                setIsQuestionModalOpen(false);
+                              }}
+                            >
+                              x
+                            </button>
+                          </EditErrorModal>
                         )}
-                        <div className="dummy" />
-                        <AnswersComments>
-                          <CommentsContainer>
-                            <CommentsList>
-                              {answer.comments.map(comment => {
-                                return (
-                                  <CmtListItem key={comment.id}>
-                                    {!(
-                                      isEditingComment && editingCommentId === comment.id
-                                    ) ? (
-                                      <>
-                                        <CmtAction>
-                                          <CmtScore>
-                                            <span>124</span>
-                                          </CmtScore>
-                                        </CmtAction>
-                                        <CmtText>
-                                          <CmtBody>
-                                            <CmtCopy>{comment.text}</CmtCopy>
-                                            <CmtUser>{comment.writtenBy}</CmtUser>
-                                            <CmtDate>
-                                              {commentedAt(comment.createdAt)}
-                                            </CmtDate>
-                                            <CmtEdit>
-                                              <Pencil
-                                                onClick={() => {
-                                                  handleOpenCommentEditor(comment);
-                                                }}
-                                              />
-                                              <CancelButton
-                                                onClick={() => {
-                                                  handleDeleteComment(answer.id, comment);
-                                                }}
-                                              >
-                                                delete
-                                              </CancelButton>
-                                              {isCommentModalOpen && (
-                                                <EditCommentErrorModal>
-                                                  <span>Account is suspended.</span>
-                                                  <button
+                      </ModalButtonWrap>
+                      <PostEditor>
+                        <span>edited</span>
+                        <span className="editedtime">Dec 23, 2021 at 20:30</span>
+                      </PostEditor>
+                      <PostWriter question={questions} />
+                    </PostFooterWrap>
+                  </PostFooter>
+                </PostBody>
+              </PostCell>
+            </PostLayout>
+          </StyledQuestion>
+          {answersData.length ? (
+            <StyledAnswer>
+              <AnswersHeader>
+                <AnswersSubHeader>
+                  <AnswersCount>
+                    {pageInfosData ? (
+                      <h3>{!pageInfosData ? 0 : pageInfosData.totalElements} Answers</h3>
+                    ) : null}
+                  </AnswersCount>
+                  <AnswerSort />
+                </AnswersSubHeader>
+              </AnswersHeader>
+              <div className="buttonContainer">{pageButtons}</div>
+              {!answersData
+                ? null
+                : answersData.map(answer => {
+                    return (
+                      <ul>
+                        <li key={answer.id}>
+                          <AnswerLayout>
+                            {isEditingAnswer && editingAnswerId === answer.id ? (
+                              <EditingAnswer>
+                                <EditingAnswerInput>
+                                  <StyledInputForm
+                                    onSubmit={() => {
+                                      handleEditAnswer(answer);
+                                    }}
+                                  >
+                                    <h3>Your Answer</h3>
+                                    <MarkDown
+                                      editorRef={editingAnswerRef}
+                                      preText={preText}
+                                    />
+                                    <div className="form-submit">
+                                      <BlueButton type="submit">
+                                        Edit Your Answer
+                                      </BlueButton>
+                                      <CancelButton onClick={handleCancelEditAnswer}>
+                                        cancel
+                                      </CancelButton>
+                                    </div>
+                                  </StyledInputForm>
+                                </EditingAnswerInput>
+                              </EditingAnswer>
+                            ) : (
+                              <>
+                                <VoteCell />
+                                <PostCell>
+                                  <AnswerBody>
+                                    <MarkdownViewer content={answer.content} />
+                                  </AnswerBody>
+                                  <PostFooter>
+                                    <PostFooterWrap>
+                                      <ButtonWrap>
+                                        <button type="button">share</button>
+                                        <button
+                                          type="button"
+                                          onClick={() => handleOpenAnswerEditor(answer)}
+                                        >
+                                          edit
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => handleDeleteAnswer(answer)}
+                                        >
+                                          delete
+                                        </button>
+                                        <button type="button">flag</button>
+                                      </ButtonWrap>
+                                      {isAnswerModalOpen && (
+                                        <EditErrorModal>
+                                          <span>Account is suspended.</span>
+                                          <button
+                                            onClick={() => {
+                                              setIsAnswerModalOpen(false);
+                                            }}
+                                          >
+                                            x
+                                          </button>
+                                        </EditErrorModal>
+                                      )}
+                                      <PostEditor>
+                                        <span>edited</span>
+                                        <span className="editedtime">
+                                          Dec 23, 2021 at 20:30
+                                        </span>
+                                      </PostEditor>
+                                      <AnswerWriter answer={answer} />
+                                    </PostFooterWrap>
+                                  </PostFooter>
+                                </PostCell>
+                              </>
+                            )}
+                            <div className="dummy" />
+                            <AnswersComments>
+                              <CommentsContainer>
+                                <CommentsList>
+                                  {answer.comments.map(comment => {
+                                    return (
+                                      <CmtListItem key={comment.id}>
+                                        {!(
+                                          isEditingComment &&
+                                          editingCommentId === comment.id
+                                        ) ? (
+                                          <>
+                                            <CmtAction>
+                                              <CmtScore>
+                                                <span>124</span>
+                                              </CmtScore>
+                                            </CmtAction>
+                                            <CmtText>
+                                              <CmtBody>
+                                                <CmtCopy>{comment.text}</CmtCopy>
+                                                <CmtUser>{comment.writtenBy}</CmtUser>
+                                                <CmtDate>
+                                                  {commentedAt(comment.createdAt)}
+                                                </CmtDate>
+                                                <CmtEdit>
+                                                  <Pencil
                                                     onClick={() => {
-                                                      setIsCommentModalOpen(false);
+                                                      handleOpenCommentEditor(comment);
+                                                    }}
+                                                  />
+                                                  <CancelButton
+                                                    onClick={() => {
+                                                      handleDeleteComment(
+                                                        answer.id,
+                                                        comment,
+                                                      );
                                                     }}
                                                   >
-                                                    x
-                                                  </button>
-                                                </EditCommentErrorModal>
-                                              )}
-                                            </CmtEdit>
-                                          </CmtBody>
-                                        </CmtText>
-                                      </>
-                                    ) : (
-                                      <EditCommentForm
-                                        onSubmit={() =>
-                                          handleEditComment(answer.id, comment)
-                                        }
-                                      >
-                                        <CommentEditFormContainer>
-                                          <CommentEditContainer>
-                                            <AddCommentInput>
-                                              <textarea
-                                                value={commentInput}
-                                                onChange={handleComment}
-                                              />
-                                            </AddCommentInput>
-                                            <AddCommentMessage>
-                                              Enter at least 15 characters
-                                            </AddCommentMessage>
-                                          </CommentEditContainer>
-                                          <AddComment>
-                                            <CommentButtonContainer>
-                                              <AddButtonWrap>
-                                                <BlueButton type="submit">
-                                                  Edit comment
-                                                </BlueButton>
-                                              </AddButtonWrap>
-                                              <HelpButtonWrap>
-                                                <HelpButton
-                                                  onClick={handleCancelEditComment}
-                                                >
-                                                  Cancel
-                                                </HelpButton>
-                                              </HelpButtonWrap>
-                                            </CommentButtonContainer>
-                                          </AddComment>
-                                        </CommentEditFormContainer>
-                                      </EditCommentForm>
-                                    )}
-                                  </CmtListItem>
-                                );
-                              })}
-                            </CommentsList>
-                          </CommentsContainer>
-                          {isCreatingComment && answer.id === cmtAnswerId ? (
-                            <AddCommentForm onSubmit={() => handleAddComment(answer.id)}>
-                              <CommentFormContainer>
-                                <CommentInputContainer>
-                                  <AddCommentInput>
-                                    <textarea onChange={handleComment} />
-                                  </AddCommentInput>
-                                  <AddCommentMessage>
-                                    Enter at least 15 characters
-                                  </AddCommentMessage>
-                                </CommentInputContainer>
-                                <AddComment>
-                                  <CommentButtonContainer>
-                                    <AddButtonWrap>
-                                      <BlueButton type="submit">Add comment</BlueButton>
-                                    </AddButtonWrap>
-                                    <HelpButtonWrap>
-                                      <HelpButton>Help</HelpButton>
-                                    </HelpButtonWrap>
-                                  </CommentButtonContainer>
-                                </AddComment>
-                              </CommentFormContainer>
-                            </AddCommentForm>
-                          ) : (
-                            <CommentLinkContainer>
-                              <AddCommentLink
-                                onClick={() => {
-                                  handleOpenCommentInput(answer.id);
-                                }}
-                              >
-                                Add a comment
-                              </AddCommentLink>
-                            </CommentLinkContainer>
-                          )}
-                        </AnswersComments>
-                      </AnswerLayout>
-                    </li>
-                  </ul>
-                );
-              })}
-        </StyledAnswer>
-      ) : null}
+                                                    delete
+                                                  </CancelButton>
+                                                  {isCommentModalOpen && (
+                                                    <EditCommentErrorModal>
+                                                      <span>Account is suspended.</span>
+                                                      <button
+                                                        onClick={() => {
+                                                          setIsCommentModalOpen(false);
+                                                        }}
+                                                      >
+                                                        x
+                                                      </button>
+                                                    </EditCommentErrorModal>
+                                                  )}
+                                                </CmtEdit>
+                                              </CmtBody>
+                                            </CmtText>
+                                          </>
+                                        ) : (
+                                          <EditCommentForm
+                                            onSubmit={() =>
+                                              handleEditComment(answer.id, comment)
+                                            }
+                                          >
+                                            <CommentEditFormContainer>
+                                              <CommentEditContainer>
+                                                <AddCommentInput>
+                                                  <textarea
+                                                    value={commentInput}
+                                                    onChange={handleComment}
+                                                  />
+                                                </AddCommentInput>
+                                                <AddCommentMessage>
+                                                  Enter at least 15 characters
+                                                </AddCommentMessage>
+                                              </CommentEditContainer>
+                                              <AddComment>
+                                                <CommentButtonContainer>
+                                                  <AddButtonWrap>
+                                                    <BlueButton type="submit">
+                                                      Edit comment
+                                                    </BlueButton>
+                                                  </AddButtonWrap>
+                                                  <HelpButtonWrap>
+                                                    <HelpButton
+                                                      onClick={handleCancelEditComment}
+                                                    >
+                                                      Cancel
+                                                    </HelpButton>
+                                                  </HelpButtonWrap>
+                                                </CommentButtonContainer>
+                                              </AddComment>
+                                            </CommentEditFormContainer>
+                                          </EditCommentForm>
+                                        )}
+                                      </CmtListItem>
+                                    );
+                                  })}
+                                </CommentsList>
+                              </CommentsContainer>
+                              {isCreatingComment && answer.id === cmtAnswerId ? (
+                                <AddCommentForm
+                                  onSubmit={() => handleAddComment(answer.id)}
+                                >
+                                  <CommentFormContainer>
+                                    <CommentInputContainer>
+                                      <AddCommentInput>
+                                        <textarea onChange={handleComment} />
+                                      </AddCommentInput>
+                                      <AddCommentMessage>
+                                        Enter at least 15 characters
+                                      </AddCommentMessage>
+                                    </CommentInputContainer>
+                                    <AddComment>
+                                      <CommentButtonContainer>
+                                        <AddButtonWrap>
+                                          <BlueButton type="submit">
+                                            Add comment
+                                          </BlueButton>
+                                        </AddButtonWrap>
+                                        <HelpButtonWrap>
+                                          <HelpButton>Help</HelpButton>
+                                        </HelpButtonWrap>
+                                      </CommentButtonContainer>
+                                    </AddComment>
+                                  </CommentFormContainer>
+                                </AddCommentForm>
+                              ) : (
+                                <CommentLinkContainer>
+                                  <AddCommentLink
+                                    onClick={() => {
+                                      handleOpenCommentInput(answer.id);
+                                    }}
+                                  >
+                                    Add a comment
+                                  </AddCommentLink>
+                                </CommentLinkContainer>
+                              )}
+                            </AnswersComments>
+                          </AnswerLayout>
+                        </li>
+                      </ul>
+                    );
+                  })}
+            </StyledAnswer>
+          ) : null}
 
-      <StyledInputForm onSubmit={handleAddAnswer}>
-        <h3>Your Answer</h3>
-        <MarkDown editorRef={editorAnswerRef} />
-        <div className="form-submit">
-          <BlueButton type="submit">Post Your Answer</BlueButton>
-        </div>
-      </StyledInputForm>
-    </StyledQuestionContainer>
+          <StyledInputForm onSubmit={handleAddAnswer}>
+            <h3>Your Answer</h3>
+            <MarkDown editorRef={editorAnswerRef} />
+            <div className="form-submit">
+              <BlueButton type="submit">Post Your Answer</BlueButton>
+            </div>
+          </StyledInputForm>
+        </StyledQuestionContainer>
+      </Container>
+      <Footer />
+    </>
   );
 }
 

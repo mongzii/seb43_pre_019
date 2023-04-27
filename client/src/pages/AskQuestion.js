@@ -1,16 +1,26 @@
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
+import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
 import useInput from '../services/useInput';
 import { axiosCreate } from '../services/api';
 import { Input, MarkDown } from '../components/feat/Input';
+
+const Container = styled.div`
+  width: 100vw;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+`;
 
 const StyledInputForm = styled.form`
   background-color: hsl(0, 0%, 100%);
   display: flex;
   flex-direction: column;
+  margin: 57px;
   padding: 0 24px 24px 24px;
-  width: 100%;
+  width: 1102px;
 
   h2 {
     font-size: 16px;
@@ -170,52 +180,58 @@ function AskQuestion() {
   };
 
   return (
-    <StyledInputForm onSubmit={handleSubmit}>
-      <ReviewNotice>
-        <h1 className="ai-notice">Review your question</h1>
-        <div className="ai-center">
-          <div className="notice-box">
-            <p className="notice-body">
-              Please do a final review of your question and then post.
-            </p>
-          </div>
-        </div>
-      </ReviewNotice>
-      <PostTitleOverlay>
-        <div className="title-ph-wrap">
-          <h2>Title</h2>
-          <div className="title-input-message">
-            Be specific and imagine you’re asking a question to another person.
-          </div>
-        </div>
-        <div className="title-wrap">
-          <Input value={titleBind} onChange={titleBind.onChange} />
-        </div>
-      </PostTitleOverlay>
-      <BodyEditorContainer>
-        <h2>What are the details of your problem?</h2>
-        <div className="body-input-message">
-          The body of your question contains your problem details and results. Minimum 30
-          characters.
-        </div>
-        {/* <TextArea value={bodyBind} onChange={bodyBind.onChange} /> */}
-        <MarkDown editorRef={editorBodyRef} />
-      </BodyEditorContainer>
-      <DetailsEditorContainer>
-        <h2>What did you try and what were you expecting?</h2>
-        <div className="details-input-message">
-          The body of your question contains your problem details and results. Minimum 30
-          characters.
-        </div>
-        <MarkDown editorRef={editorDetailsRef} />
-      </DetailsEditorContainer>
-      <FormSubmit>
-        <BlueButton type="submit">Post your question</BlueButton>
-        <div className="discard-wrap">
-          <button className="discard-button">Discard draft</button>
-        </div>
-      </FormSubmit>
-    </StyledInputForm>
+    <>
+      <Container>
+        <Header />
+        <StyledInputForm onSubmit={handleSubmit}>
+          <ReviewNotice>
+            <h1 className="ai-notice">Review your question</h1>
+            <div className="ai-center">
+              <div className="notice-box">
+                <p className="notice-body">
+                  Please do a final review of your question and then post.
+                </p>
+              </div>
+            </div>
+          </ReviewNotice>
+          <PostTitleOverlay>
+            <div className="title-ph-wrap">
+              <h2>Title</h2>
+              <div className="title-input-message">
+                Be specific and imagine you’re asking a question to another person.
+              </div>
+            </div>
+            <div className="title-wrap">
+              <Input value={titleBind} onChange={titleBind.onChange} />
+            </div>
+          </PostTitleOverlay>
+          <BodyEditorContainer>
+            <h2>What are the details of your problem?</h2>
+            <div className="body-input-message">
+              The body of your question contains your problem details and results. Minimum
+              30 characters.
+            </div>
+            {/* <TextArea value={bodyBind} onChange={bodyBind.onChange} /> */}
+            <MarkDown editorRef={editorBodyRef} />
+          </BodyEditorContainer>
+          <DetailsEditorContainer>
+            <h2>What did you try and what were you expecting?</h2>
+            <div className="details-input-message">
+              The body of your question contains your problem details and results. Minimum
+              30 characters.
+            </div>
+            <MarkDown editorRef={editorDetailsRef} />
+          </DetailsEditorContainer>
+          <FormSubmit>
+            <BlueButton type="submit">Post your question</BlueButton>
+            <div className="discard-wrap">
+              <button className="discard-button">Discard draft</button>
+            </div>
+          </FormSubmit>
+        </StyledInputForm>
+      </Container>
+      <Footer />
+    </>
   );
 }
 

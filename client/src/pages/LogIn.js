@@ -29,7 +29,7 @@ const GoogleButton = styled.button`
   border: 1px solid black;
   border-radius: 5px;
   height: 30px;
-  margin-top: 300px;
+  margin-top: 30px;
 `;
 
 const GithubButton = styled.button`
@@ -70,14 +70,14 @@ const Styledloginbox = styled.body`
   }
 
   > input {
-    height: 20px;
+    height: 30px;
   }
   > input:focus {
     border: 5px solid #d9eaf7;
     border-style: outset;
   }
   > button {
-    width: 210px;
+    width: 200px;
     background-color: #0a95ff;
     color: white;
     border: white;
@@ -90,11 +90,28 @@ const Styledloginbox = styled.body`
   }
 `;
 
-function LogIn() {
-  const [isLogin, setIsLogin] = useState(false);
+const ErrorMsg = styled.span`
+  color: red;
+  font-size: 11px;
+  font-weight: 200;
+`;
+// const SubDesign = styled.div`
+//   background-color: #385499;
+//   color: black;
+// `;
+
+// const SubDesignSub = styled.div`
+//   color: blue;
+//   white-space: nowrap;
+// `;
+
+// 0427 14:45pm
+function LogIn({ setIsLogin }) {
+  // const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [emailValid, setEmailValid] = useState(false);
 
   const navigate = useNavigate();
   // const [name, setName] = useState('');
@@ -112,30 +129,93 @@ function LogIn() {
   // const [checkedKeepLogin, setCheckedKeepLogin] = useState(false);
 
   function onEmailHandler(e) {
-    setEmail(e.target.value);
+    setUsername(e.target.value);
     // console.log(e.target.value);
+    const regex =
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    if (regex.test(username)) {
+      setEmailValid(true);
+    } else {
+      setEmailValid(false);
+    }
   }
   function onPasswordHandler(e) {
     setPassword(e.target.value);
   }
-  // 0426 1148am
+
   const onSubmitHandler = e => {
     e.preventDefault();
+    const userData = {
+      username,
+      password,
+    };
+
+    // `http://localhost:8081/login`
     axios
-      .post(`${process.env.REACT_APP_DEV_URL}/login`, { email, password })
+      .post(`/api/members/login`, userData)
       .then(res => {
-        console.log(res.data);
-        // console.log(res.status);
-        navigate('/');
-        setUserInfo(res.data);
+        console.log(res);
+        // console.log(res.headers);
+        // console.log(res.headers.authorization);    // 여기에 토큰값이 들어있다.
+        localStorage.setItem('accessToken', res.headers.authorization);
+        localStorage.setItem('refreshToken', res.headers.refresh);
+        // console.log(username);
+        // setUserInfo(username);
+
         setIsLogin(true);
-        // 헤드바 바뀌는거추가해야함.
+        navigate('/');
       })
       .catch(err => {
-        console.log(err.response.data);
+        console.log(err);
         alert('다시해');
+        setUsername('');
       });
+
+    if (!emailValid) {
+      console.log('이메일형식아냐');
+    }
+    // } else {
+    //   console.log('ok');
+    // }
   };
+
+  //   axios
+  //     .post(`localhost:8081/members`, userData)
+  //     .then(res => {
+  //       console.log(res);
+  //       // localStorage.setItem('accessToken', res.data);
+  //       navigate('/');
+  //     })
+  //     .catch(err => console.log(err));
+  //   // alert('다시해');
+  // };
+  // axios
+  //   .post(
+  //     `localhost:8081/login`,
+  //     { username, password },
+  //     { withCredentials: true },
+  //   )
+  //   .then(res => res.json())
+  //   .then(res => {
+  //     localStorage.setItem('accessToken', res.data);
+  //   })
+  //   .catch(err => {
+  //     console.log(err.response.data);
+  //     alert('다시해');
+  //   });
+  // .then(res => {
+  //   console.log(res.data);
+  //   // console.log(res.status);
+  //   navigate('/');
+  //   setUserInfo(res.data);
+  //   setIsLogin(true);
+  //   // 헤드바 바뀌는거추가해야함.
+  // })
+  // .catch(err => {
+  //   console.log(err.response.data);
+  //   alert('다시해');
+  // });
+  // };
   // const onSubmitHandler = () => {
   //   fetch(`${process.env.REACT_APP_DEV_URL}/login`, {
   //     method: 'POST',
@@ -261,10 +341,10 @@ function LogIn() {
 
   return (
     <>
-      <Header />
+      <Header setIsLogin={setIsLogin} />
       <main>
         <Styledlogin>
-          <StackoverFlowLogo />
+          <StackoverFlowLogo style={{ marginTop: '250px', marginLeft: '130px' }} />
           <GoogleButton>
             <FcGoogle size="19" />
             Log in with Google
@@ -282,6 +362,10 @@ function LogIn() {
           <Styledloginbox>
             <span>Email</span>
             <input onChange={onEmailHandler} />
+            {!emailValid === false && (
+              <ErrorMsg>The email is not a valid email address.</ErrorMsg>
+            )}
+
             <span>Password</span>
             {/* <span>Forgot password?</span> */}
             <input type="password" onChange={onPasswordHandler} />
@@ -289,6 +373,16 @@ function LogIn() {
           </Styledloginbox>
         </body>
       </main>
+      {/* <sub>
+        <SubDesign>
+          <p>
+            Don&apos;t have an account? <SubDesignSub>Sign up</SubDesignSub>
+          </p>
+          <p>
+            Are you an employer? <SubDesignSub>Sign up on Talent</SubDesignSub>
+          </p>
+        </SubDesign>
+      </sub> */}
     </>
   );
 }
