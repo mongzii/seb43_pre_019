@@ -19,7 +19,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="stackoverflow-deploy">
       <Routes>
         <Route path="/" element={<Home isLogin={isLogin} setIsLogin={setIsLogin} />} />
         <Route path="/mypages" element={<MyPages />} />
