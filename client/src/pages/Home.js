@@ -16,8 +16,10 @@ import HomeImg from '../assets/Home.png';
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
   margin-top: 57px;
+  img {
+    width: 1101px;
+  }
 `;
 
 function Home() {
@@ -25,6 +27,7 @@ function Home() {
     <>
       <Header />
       <Container>
+        <Aside />
         <img src={HomeImg} alt="homeimg" />
       </Container>
       <Footer />
