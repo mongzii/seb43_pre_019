@@ -127,7 +127,6 @@ function SignUp() {
 
       .post(`/api/members/sign`, newdata)
       .then(res => {
-        console.log(res.data);
         navigate('/login');
       })
       .catch(err => {

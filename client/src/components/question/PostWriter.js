@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import useGetUserInfo from '../../services/useGetUserInfo';
 
 const Container = styled.div``;
 
@@ -81,14 +83,17 @@ const UserDetails = styled.div`
   }
 `;
 
-function PostWriter() {
+function PostWriter({ question }) {
+  const askedAt = new Date(Date.parse(question.createdAt)).toLocaleString('ko-KR', {
+    timeZone: 'Asia/Seoul',
+  });
   return (
     <Container>
       <UserInfo>
         <UserActionTime>
           <span>asked</span>
           <span title="2023-04-23 04:48:13Z" className="postedtime">
-            15 mins ago
+            {askedAt}
           </span>
         </UserActionTime>
         <UserWrap>
@@ -103,7 +108,7 @@ function PostWriter() {
           </UserAvatar>
           <UserDetails>
             <a className="user-name" href="/">
-              hajongon
+              {question.writtenBy}
             </a>
             <div className="flair">
               <span>4,379</span>

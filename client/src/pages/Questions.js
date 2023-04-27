@@ -164,8 +164,7 @@ const QUser = styled.div`
 // 해결 방법: MainSection 안에 Questions 관련 Styled-Components 불러와서 한 번에 구현
 
 function Questions() {
-  const devUrl = process.env.REACT_APP_DEV_URL;
-  const { questions } = useAxios(`${devUrl}/questions`);
+  const { questions } = useAxios(`/api/questions`);
   return (
     <>
       <TopContainer>

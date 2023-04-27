@@ -4,8 +4,7 @@ import { useState } from 'react';
 // import styled from 'styled-components';
 
 // import Template from './components/Template';
-import { Provider } from 'react-redux';
-import store from './app/store';
+
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
@@ -20,7 +19,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="stackoverflow-deploy">
       <Routes>
         <Route path="/" element={<Home isLogin={isLogin} setIsLogin={setIsLogin} />} />
         <Route path="/mypages" element={<MyPages />} />

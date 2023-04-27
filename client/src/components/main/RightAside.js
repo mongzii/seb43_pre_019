@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactComponent as Square } from '../../assets/🦆 icon _comment square_.svg';
+import { ReactComponent as Square } from '../../assets/icon_comment_square_.svg';
 import { ReactComponent as StackOver } from '../../assets/ic-stackoverflow.svg';
 import { ReactComponent as Pencil } from '../../assets/ic-pencil.svg';
 

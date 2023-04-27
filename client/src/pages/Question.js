@@ -7,6 +7,7 @@ import Header from '../components/header/Header';
 import Aside from '../components/leftAside/Aside';
 import Footer from '../components/footer/Footer';
 import useAxios from '../services/useAxios';
+import useGetUserInfo from '../services/useGetUserInfo';
 import {
   axiosCreate,
   axiosDelete,
@@ -191,6 +192,31 @@ const EditingAnswerInput = styled.div`
   }
 `;
 const EditingAnswerButtons = styled.div``;
+
+const ModalButtonWrap = styled.div``;
+
+const EditErrorModal = styled.div`
+  width: fit-content;
+  padding: 12px;
+  background-color: hsl(358, 62%, 47%);
+  color: white;
+  > button {
+    margin-left: 12px;
+    color: white;
+  }
+`;
+
+const EditCommentErrorModal = styled.div`
+  width: fit-content;
+  margin-left: 20px;
+  color: hsl(358, 62%, 47%);
+  > button {
+    margin-left: 12px;
+    color: hsl(358, 62%, 47%);
+    border: none;
+    background-color: transparent;
+  }
+`;
 const CancelButton = styled.button`
   background-color: transparent;
   border: none;
@@ -363,12 +389,33 @@ function Question() {
   //   setQuestion(questions);
   // }, [questions]);
 
+  // token
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem('accessToken') || '',
+  );
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem('refreshToken') || '',
+  );
+
+  // userInfo
+  const { userInfo } = useGetUserInfo(`/api/members/info`);
+
+  console.log(accessToken);
+
+  // useEffect(() => {
+  //   setQuestionData(questions);
+  // }, [questions]);
+
   // page 별 answers 불러오기 위한 선언
   const [answersData, setAnswersData] = useState([]);
   // pageInfos가 Question에서 변경될 수 있기 때문에 useState로 관리
   const [pageInfosData, setPageInfosData] = useState(null);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
+  const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
   // answers가 바뀌면 answersData가 변할 수 있도록 useEffect 사용
   useEffect(() => {
@@ -378,13 +425,19 @@ function Question() {
 
   // delete question
   const handleDelete = () => {
-    // if (현재 유저의 userid와 question의 userid가 다르다) => return
+    if (userInfo.displayName !== questions.writtenBy) {
+      setIsQuestionModalOpen(true);
+      return;
+    }
     axiosDelete(`/api/questions/${id}`);
   };
 
-  // edit question
-  const handleEdit = () => {
-    // if (현재 유저의 userid와 question의 userid가 다르다) => return
+  // edit question 페이지로 이동
+  const handleEdit = async () => {
+    if (userInfo.displayName !== questions.writtenBy) {
+      setIsQuestionModalOpen(true);
+      return;
+    }
     navigate(`/questions/${id}/edit`);
   };
 
@@ -397,13 +450,28 @@ function Question() {
     // answer 하나만 보내면 어차피 갱신된 question을 보내주므로,
     // question PATCH 요청 X. answer을 POST 요청한다.
     const newAnswer = { content: answerValue };
-    axiosCreateAnswer(`/api/questions/${id}/answers`, newAnswer, id);
+    axiosCreateAnswer(
+      `/api/questions/${id}/answers`,
+      newAnswer,
+      id,
+      accessToken,
+      refreshToken,
+    );
   };
 
   // delete answer
-  const handleDeleteAnswer = answerId => {
+  const handleDeleteAnswer = answer => {
     // if (현재 유저의 userid와 answer의 userid가 다르다) => return
-    axiosDeleteAnswer(`/api/questions/${id}/answers/${answerId}`, id);
+    if (answer.writtenBy !== userInfo.displayName) {
+      setIsAnswerModalOpen(true);
+      return;
+    }
+    axiosDeleteAnswer(
+      `/api/questions/${id}/answers/${answer.id}`,
+      id,
+      accessToken,
+      refreshToken,
+    );
   };
 
   // edit answer
@@ -414,31 +482,139 @@ function Question() {
 
   const editingAnswerRef = useRef();
 
+  // answer 목록 중 수정할 answer의 에디터를 open
   const handleOpenAnswerEditor = answer => {
+    if (answer.writtenBy !== userInfo.displayName) {
+      setIsAnswerModalOpen(true);
+      return;
+    }
     // if (현재 유저의 userid와 answer의 userid가 다르다) => return
     setIsEditingAnswer(true);
     setEditingAnswerId(answer.id);
     // html 태그가 포함된 형태로 들어가지 않게 하기 위해 쏙 빼준다.
+    // 근데 이렇게 하면 줄바꿈이 안 먹는다.
+    // 어떻게 해볼까..
     const plainText = document.createElement('div');
     plainText.innerHTML = answer.content;
     setPreText(plainText.innerText);
   };
 
+  // edit한 answer로 PATCH 요청
   const handleEditAnswer = answer => {
     const answerValue = editingAnswerRef.current?.getInstance().getHTML();
     const editedAnswer = {
       content: answerValue,
     };
-    axiosPatch(`/api/questions/${id}/answers/${answer.id}`, editedAnswer, id);
+    axiosPatch(
+      `/api/questions/${id}/answers/${answer.id}`,
+      editedAnswer,
+      id,
+      accessToken,
+      refreshToken,
+    );
     setIsEditingAnswer(false);
     setEditingAnswerId('');
     setPreText('');
   };
 
+  // edit 취소
   const handleCancelEditAnswer = () => {
     setIsEditingAnswer(false);
     setEditingAnswerId('');
     setPreText('');
+  };
+
+  // comment
+
+  const [commentInput, setCommentInput] = useState('');
+  const [isCreatingComment, setIsCreatingComment] = useState(false);
+  const [isEditingComment, setIsEditingComment] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState('');
+  const [cmtAnswerId, setCmtAnswerID] = useState('');
+
+  const commentedAt = cmtedAt => {
+    const time = new Date(Date.parse(cmtedAt)).toLocaleString('ko-KR', {
+      timeZone: 'Asia/Seoul',
+    });
+    return time;
+  };
+  // 'add a comment'를 누르면 코멘트 작성창이 뜬다.
+  const handleOpenCommentInput = answerId => {
+    // if (현재 유저의 userid와 comment의 userid가 다르다) => return
+    setIsCreatingComment(true);
+    setCmtAnswerID(answerId);
+  };
+
+  // 입력 받은 comment로 state 갱신
+  const handleComment = e => {
+    setCommentInput(e.target.value);
+  };
+
+  // 입력 받은 comment로 POST 요청
+  const handleAddComment = answerId => {
+    const newComment = {
+      text: commentInput,
+    };
+    // answerId만 있으면 상위 questionId까지 유추할 수 있음
+    axiosCreateAnswer(
+      `/api/answers/${answerId}/comments`,
+      newComment,
+      id,
+      accessToken,
+      refreshToken,
+    );
+    setIsCreatingComment(false);
+    setCmtAnswerID('');
+    setCommentInput('');
+  };
+
+  // comment 수정 창 열기
+  const handleOpenCommentEditor = comment => {
+    if (comment.writtenBy !== userInfo.displayName) {
+      setIsCommentModalOpen(true);
+      return;
+    }
+    setIsEditingComment(true);
+    setEditingCommentId(comment.id);
+    setCommentInput(comment.text);
+  };
+
+  // 수정한 comment로 PATCH 요청
+  const handleEditComment = (answerId, comment) => {
+    const editedComment = {
+      text: commentInput,
+    };
+    axiosPatch(
+      `/api/answers/${answerId}/comments/${comment.id}`,
+      editedComment,
+      id,
+      accessToken,
+      refreshToken,
+    );
+    setIsEditingComment(false);
+    setEditingCommentId('');
+    setCommentInput('');
+  };
+
+  // comment 수정 취소
+  const handleCancelEditComment = () => {
+    setIsEditingComment(false);
+    setEditingCommentId('');
+    setCommentInput('');
+  };
+
+  // delete comment
+  const handleDeleteComment = (answerId, comment) => {
+    if (comment.writtenBy !== userInfo.displayName) {
+      setIsCommentModalOpen(true);
+      return;
+    }
+    axiosDeleteComment(
+      `/api/answers/${answerId}/comments/${comment.id}`,
+      id,
+      accessToken,
+      refreshToken,
+    );
   };
 
   // move to other answers page
@@ -468,64 +644,10 @@ function Question() {
     setCurrentPage(page);
   };
 
-  // comment
-
-  const [commentInput, setCommentInput] = useState('');
-  const [isCreatingComment, setIsCreatingComment] = useState(false);
-  const [isEditingComment, setIsEditingComment] = useState(false);
-  const [editingCommentId, setEditingCommentId] = useState('');
-  const [cmtAnswerId, setCmtAnswerID] = useState('');
-
-  const handleOpenCommentInput = answerId => {
-    // if (현재 유저의 userid와 comment의 userid가 다르다) => return
-    setIsCreatingComment(true);
-    setCmtAnswerID(answerId);
-  };
-
-  const handleOpenCommentEditor = comment => {
-    setIsEditingComment(true);
-    setEditingCommentId(comment.id);
-    setCommentInput(comment.text);
-  };
-
-  const handleComment = e => {
-    setCommentInput(e.target.value);
-  };
-
-  const handleEditComment = (answerId, commentId) => {
-    console.log('link test');
-    const editedComment = {
-      text: commentInput,
-    };
-    axiosPatch(`/api/answers/${answerId}/comments/${commentId}`, editedComment, id);
-    setIsEditingComment(false);
-    setEditingCommentId('');
-    setCommentInput('');
-  };
-
-  const handleCancelEditComment = () => {
-    setIsEditingComment(false);
-    setEditingCommentId('');
-    setCommentInput('');
-  };
-
-  const handleAddComment = answerId => {
-    const newComment = {
-      text: commentInput,
-    };
-    // answerId만 있으면 상위 questionId까지 유추할 수 있음
-    axiosCreateAnswer(`/api/answers/${answerId}/comments`, newComment, id);
-    setIsCreatingComment(false);
-    setCmtAnswerID('');
-    setCommentInput('');
-  };
-
-  const handleDeleteComment = (answerId, commentId) => {
-    axiosDeleteComment(`/api/answers/${answerId}/comments/${commentId}`, id);
-  };
-
+  // page 버튼을 모을 배열 생성
   const pageButtons = [];
 
+  // totalPages의 정보를 토대로 page 개수 지정해서 생성
   if (pageInfosData) {
     for (let i = 1; i <= pageInfosData.totalPages; i += 1) {
       const isActive = currentPage === i;
@@ -564,21 +686,37 @@ function Question() {
                   <PostTags />
                   <PostFooter>
                     <PostFooterWrap>
-                      <ButtonWrap>
-                        <button type="button">share</button>
-                        <button type="button" onClick={handleEdit}>
-                          edit
-                        </button>
-                        <button type="button" onClick={handleDelete}>
-                          delete
-                        </button>
-                        <button type="button">follow</button>
-                      </ButtonWrap>
+                      <ModalButtonWrap>
+                        <ButtonWrap>
+                          <button type="button">share</button>
+
+                          <button type="button" onClick={handleEdit}>
+                            edit
+                          </button>
+
+                          <button type="button" onClick={handleDelete}>
+                            delete
+                          </button>
+                          <button type="button">follow</button>
+                        </ButtonWrap>
+                        {isQuestionModalOpen && (
+                          <EditErrorModal>
+                            <span>Account is suspended.</span>
+                            <button
+                              onClick={() => {
+                                setIsQuestionModalOpen(false);
+                              }}
+                            >
+                              x
+                            </button>
+                          </EditErrorModal>
+                        )}
+                      </ModalButtonWrap>
                       <PostEditor>
                         <span>edited</span>
                         <span className="editedtime">Dec 23, 2021 at 20:30</span>
                       </PostEditor>
-                      <PostWriter />
+                      <PostWriter question={questions} />
                     </PostFooterWrap>
                   </PostFooter>
                 </PostBody>
@@ -648,19 +786,31 @@ function Question() {
                                         </button>
                                         <button
                                           type="button"
-                                          onClick={() => handleDeleteAnswer(answer.id)}
+                                          onClick={() => handleDeleteAnswer(answer)}
                                         >
                                           delete
                                         </button>
                                         <button type="button">flag</button>
                                       </ButtonWrap>
+                                      {isAnswerModalOpen && (
+                                        <EditErrorModal>
+                                          <span>Account is suspended.</span>
+                                          <button
+                                            onClick={() => {
+                                              setIsAnswerModalOpen(false);
+                                            }}
+                                          >
+                                            x
+                                          </button>
+                                        </EditErrorModal>
+                                      )}
                                       <PostEditor>
                                         <span>edited</span>
                                         <span className="editedtime">
                                           Dec 23, 2021 at 20:30
                                         </span>
                                       </PostEditor>
-                                      <AnswerWriter />
+                                      <AnswerWriter answer={answer} />
                                     </PostFooterWrap>
                                   </PostFooter>
                                 </PostCell>
@@ -686,8 +836,10 @@ function Question() {
                                             <CmtText>
                                               <CmtBody>
                                                 <CmtCopy>{comment.text}</CmtCopy>
-                                                <CmtUser>hajongon</CmtUser>
-                                                <CmtDate>May 11, 2023 at 12:45</CmtDate>
+                                                <CmtUser>{comment.writtenBy}</CmtUser>
+                                                <CmtDate>
+                                                  {commentedAt(comment.createdAt)}
+                                                </CmtDate>
                                                 <CmtEdit>
                                                   <Pencil
                                                     onClick={() => {
@@ -698,12 +850,24 @@ function Question() {
                                                     onClick={() => {
                                                       handleDeleteComment(
                                                         answer.id,
-                                                        comment.id,
+                                                        comment,
                                                       );
                                                     }}
                                                   >
                                                     delete
                                                   </CancelButton>
+                                                  {isCommentModalOpen && (
+                                                    <EditCommentErrorModal>
+                                                      <span>Account is suspended.</span>
+                                                      <button
+                                                        onClick={() => {
+                                                          setIsCommentModalOpen(false);
+                                                        }}
+                                                      >
+                                                        x
+                                                      </button>
+                                                    </EditCommentErrorModal>
+                                                  )}
                                                 </CmtEdit>
                                               </CmtBody>
                                             </CmtText>
@@ -711,7 +875,7 @@ function Question() {
                                         ) : (
                                           <EditCommentForm
                                             onSubmit={() =>
-                                              handleEditComment(answer.id, comment.id)
+                                              handleEditComment(answer.id, comment)
                                             }
                                           >
                                             <CommentEditFormContainer>
