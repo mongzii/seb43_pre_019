@@ -105,9 +105,8 @@ const ErrorMsg = styled.span`
 //   white-space: nowrap;
 // `;
 
-// 0427 14:45pm
+
 function LogIn({ setIsLogin }) {
-  // const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

@@ -11,7 +11,7 @@ import MyPages from './pages/MyPages';
 import MyPagesActivity from './pages/MyPagesActivity';
 import EditQuestion from './pages/EditQuestion';
 
-//230428 19:39pm
+
 function App() {
   const [isLogin, setIsLogin] = useState(false);
 
